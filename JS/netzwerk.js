@@ -443,7 +443,7 @@ var link = svg.append("g").selectAll(".link"),
 	node = svg.append("g").selectAll(".node");
 
 // this starts the code..
-d3.json("../Data/legislatures.json").then(function(l) {
+d3.json("./../Data/legislatures.json").then(function(l) {
 	legislatures = l;
 
 	var legOption = legWrapper
