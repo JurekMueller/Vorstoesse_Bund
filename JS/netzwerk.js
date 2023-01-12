@@ -89,8 +89,8 @@ var legOption = legWrapper
 				.attr("id",function(d) {return 'ratSel'+d.id})
 				.attr("value",function(d) {return d.value});
 
-selectRat = 2
-d3.select('#ratSelSta').property('selected',true);
+selectRat = 1
+d3.select('#natSelSta').property('selected',true);
 ///////////// DOM CREATION: COLOR DIM SELECT ////////////////
 
 //	colors for parties are picked to resemble oficcialy reported colors:
@@ -458,7 +458,7 @@ d3.json("Data/legislatures.json").then(function(l) {
 
 	// Select Partei as default
 	// selectLeg = legislatures.at(-1).ID.toString();
-	selectLeg = '47'
+	selectLeg = '51'
 	d3.select('#legSel'+selectLeg).property('selected',true);
 	d3.selectAll(".loader").style("visibility","visible");
 	d3.selectAll(".overlay").style("visibility","visible");
