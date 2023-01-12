@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nationalrat</title>
+    <!-- Bootstrap -->
+    <link href="CSS/bootstrap.min.css" rel="stylesheet">
+    <style>
+        svg {
+            width: 90%;
+            height: 800px;
+            background-color: white;
+        }
+
+        /* .node {
+            stroke: grey;
+            stroke-width: 1px;
+        } */
+
+        .link {
+            stroke: gray;
+            /* stroke-width: 4px; */
+        }
+
+        .titleBanner {
+            padding-top: 2rem;
+            /* background-color: #4fbdf2; */
+            /* border-radius: 1.5rem; */
+        }
+
+        .impressum {
+          /* margin-top: 2rem; */
+          background-color: #4fbdf2;
+          height: 12em;
+          text-align: center;
+        }
+
+        .my_rounded{
+            border-radius: 1.6em;
+            /* box-shadow: 0 5px 10px rgba(0,0,0,.2); */
+        }
+        .text-justify{
+          text-align: justify;
+        }
+        .pMarg{
+          margin-bottom: 0.9em;
+        }
+        a {
+          text-decoration: none;
+          font-weight: bold;
+        }
+        body{
+          background-color: rgb(240, 240, 240);
+        }
+        .loader {
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          z-index: 20000;
+          top: 40%;
+          left: 0px;
+          opacity: 0.5;
+          filter: alpha(opacity=50);
+          visibility: hidden;
+        }
+        .overlay{
+          top: 0%;
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          z-index: 10000;
+          background: rgba(0,0,0,0.5);
+          visibility: hidden;
+      }
+    </style>
+</head>
+<body>
+     
+    <!-- This is the loading screen -->
+    <div class="overlay"></div>
+    <div class="loader">
+      <div class="d-flex justify-content-center">  
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; z-index: 20;"></div>
+    </div>
+    </div>
+    <!-- This is the header -->
+    <div class="container-fluid" id="header-container">  
+      <div class="row justify-content-end mt-1"> 
+        <div class="col-1 text-right">
+          <button type="button" class="btn btn-link" id="langSelectDe">de</button> | <button type="button" class="btn btn-link" id="langSelectFr">fr</button>
+        </div>
+      </div>
+    </div>
+    <!-- This is the visualisation -->
+    <section class="mb-5" id="networkViz">
+      <div class="container-lg" id="network-container">   
+        <div class="row justify-content-center mt-3"> 
+            <div class="col-11 text-center">
+              <h5 class="display-4" id="netT"></h5>
+            </div>
+          </div>  
+          <div class="row justify-content-center">
+                  <div class="col-3 mt-5" style="z-index: 1000">
+                    <div class="pt-2 pb-2">
+                      <p class="fw-bold" id="ratT"></p>
+                      <div id="ratSelect"></div>
+                  </div>  
+                  <div class="pt-2 pb-2">
+                      <p class="fw-bold" id="legT"></p>
+                      <div id="legSelect"></div>
+                  </div>  
+                  <div class="pt-2 pb-2">
+                    <p class="fw-bold" id="colT"></p>
+                    <div id="colorSelect"></div>
+                  </div>
+                  <div class="pt-2 pb-2">
+                    <p class="fw-bold" id="linT"></p>
+                    <div id="linkSelect"></div>
+                  </div>
+                  <div class="pt-2 pb-2">
+                      <p class="fw-bold" id="topT"></p>
+                      <div id="subjectSelect"></div>
+                  </div>
+                  <div class="pt-2 pb-2">
+                    <p class="fw-bold" id="busT"></p>  
+                    <div id="typeCheckbox"></div>
+                  </div>
+                  <div class="pt-2 pb-2">
+                    <p class="fw-bold" id="cooT"></p>  
+                    <div id="exintCheckbox"></div>
+                  </div>
+              </div>
+              <div class="col-10 text-end mt-5 mb-2", style="margin-left:-9%; z-index: 1;" id="network-div">
+                  <svg class="shadow my_rounded border border-2" id="network-svg"></svg>
+              </div>
+            </div>
+        </div>
+    </section>
+  
+    <script src="JS/d3.min.js"></script>
+    <script src="JS/d3-legend.js"></script>
+    <script src="JS/jquery-3.6.0.js"></script>
+    <script type="javascript" src="JS/bootstrap.min.js"></script>
+
+    <script src="JS/netzwerk.js"></script>
+</body>
+</html>
