@@ -469,7 +469,7 @@ d3.json("Data/legislatures.json").then(function(l) {
 ////////// FUNCTION DEFINITIONS ////////////
 
 function loadFiles() {
-	d3.json("../Data/topics.json").then(function(s) {
+	d3.json("Data/topics.json").then(function(s) {
 		// vor_subjects.push(s)
 		vor_subj = $.extend(true, s, {});
 		// DOM creation for subj Selector
@@ -485,8 +485,7 @@ function loadFiles() {
 		translate('de'); // translate after all doms have been created
 		
 		//	data read and store
-		d3.json("../Data/netzwerk_"+selectLeg+"_"+selectRat+".json").then(function(g) {
-		// d3.json("../Data/netzwerk_47.json").then(function(g) {
+		d3.json("Data/netzwerk_"+selectLeg+"_"+selectRat+".json").then(function(g) {
 			// if (err) throw err;
 			// // adds ID for links
 			// Fill Text with standard lang
