@@ -89,13 +89,9 @@ var legOption = legWrapper
 				.attr("id",function(d) {return 'ratSel'+d.id})
 				.attr("value",function(d) {return d.value});
 
-selectRat = 1
-d3.select('#natSelSta').property('selected',true);
+selectRat = 2
+d3.select('#ratSelSta').property('selected',true);
 ///////////// DOM CREATION: COLOR DIM SELECT ////////////////
-
-//	colors for parties are picked to resemble oficcialy reported colors:
-// https://statistik.tg.ch/themen-und-daten/staat-und-politik/wahlen-und-abstimmungen/grossratswahlen-2020-hauptseite.html/10545
-// colors for service years were picked from a seaborn color palette (Purples_d)
 
 // XXX Needs Change
 // Only large parties get colors
@@ -499,9 +495,26 @@ function loadFiles() {
 			store = $.extend(true, {}, g);
 
 			// Change colorspace depending of Parties present
+			//	colors for parties are picked to resemble oficcialy reported colors:
+			// https://www.bfs.admin.ch/bfs/de/home/statistiken/politik/wahlen/nationalratswahlen/mandatsverteilung.html
+			// https://statistik.tg.ch/themen-und-daten/staat-und-politik/wahlen-und-abstimmungen/grossratswahlen-2020-hauptseite.html/10545
+			// colors for service years were picked from a seaborn color palette (Purples_d)
+			// colors={
+			// Colors from Thurgau
+			// 	'Partei':{'SP':'#cd3700','GRÜNE':'#a2c510','glp':'#b3ee3a','CVP':'#e39e00','M-E':'#e39e00',
+			// 	'EVP':'#00b4e8','FDP':'#0064e6','FDP-Liberale':'#0064e6','SVP':'#3ca433','BDP':'#ffed00','Kleinparteien':'#a5b7d4'},
+			// 	'Geschlecht':{'weiblich':d3.schemeTableau10[0],'männlich':d3.schemeTableau10[1]}
+			// 	};
+			// Colors from bfs
+			// colors={
+			// 	'Partei':{'SP':'#EA546F','GRÜNE':'#26B300','glp':'#CBD401','CVP':'#F39F5E','M-E':'#F39F5E',
+			// 	'EVP':'#87BFDC','FDP':'#6268AF','FDP-Liberale':'#6268AF','SVP':'#547D34','BDP':'#FFFF00','Kleinparteien':'#a5b7d4'},
+			// 	'Geschlecht':{'weiblich':d3.schemeTableau10[0],'männlich':d3.schemeTableau10[1]}
+			// 	};
+			// Mixed Colors
 			colors={
-				'Partei':{'SP':'#cd3700','GRÜNE':'#a2c510','glp':'#b3ee3a','CVP':'#e39e00','M-E':'#e39e00',
-				'EVP':'#00b4e8','FDP':'#0064e6','FDP-Liberale':'#0064e6','SVP':'#3ca433','BDP':'#ffed00','Kleinparteien':'#a5b7d4'},
+				'Partei':{'SP':'#EA546F','GRÜNE':'#26B300','glp':'#CBD401','CVP':'#F39F5E','M-E':'#F39F5E',
+				'EVP':'#00b4e8','FDP':'#0064e6','FDP-Liberale':'#0064e6','SVP':'#547D34','BDP':'#FFFF00','Kleinparteien':'#a5b7d4'},
 				'Geschlecht':{'weiblich':d3.schemeTableau10[0],'männlich':d3.schemeTableau10[1]}
 				};
 			let partiesLeg = Array.from(new Set(store.nodes.map(item => item.Partei))); // find unique Party Abbreviation
@@ -718,10 +731,13 @@ function circular_strength(d) {
 }
 
 function charge_strength(d) {
+	let zoom
+	if (selectRat.toString()==="2") {zoom=3
+	} else { zoom=1 };
 	if (d.Collab.length===0) {
-		return Math.min(-1 * radius(d)**1.8,-40)*1.6;
+		return Math.min(-1 * radius(d)**1.8,-40)*1.6*zoom;
 	} else {
-		return Math.max(Math.min(-1 * radius(d)**1.8,-40),-250);
+		return Math.max(Math.min(-1 * radius(d)**1.8,-40),-250)*zoom;
 	}
 }
 
