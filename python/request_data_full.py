@@ -107,7 +107,7 @@ for council in [1,2]:
         
         params = {'$top':str(interval),'$skip':str(skip),'$filter':f"Language eq 'DE' and Council eq {council}"} # Council == 1 ist Nationalrat, == 2 ist Ständerat
         response = requests.get(api_url,headers=headers,params=params)
-        response = response.json()['d']['results']
+        response = response.json()['d']
         response_pd = pd.json_normalize(response)
         if abgeordnete_hist is None: abgeordnete_hist = response_pd.copy(deep=True)
         else: abgeordnete_hist = pd.concat([abgeordnete_hist,response_pd],ignore_index=True)
@@ -143,7 +143,7 @@ for council in [1,2]:
                     (DateLeaving ge datetime'{legislaturen.loc[first_leg]['StartDate']}' or DateJoining ge datetime'{legislaturen.loc[first_leg]['StartDate']}')",
                     '$orderby':'PersonNumber asc'}
         response = requests.get(api_url,headers=headers,params=params)
-        response = response.json()['d']['results']
+        response = response.json()['d']
         response_pd = pd.json_normalize(response)
         if abgeordnete is None: abgeordnete = response_pd.copy(deep=True)
         else: abgeordnete = pd.concat([abgeordnete,response_pd],ignore_index=True)
@@ -365,7 +365,7 @@ for council in [1,2]:
             list_halves.append(business[business['BusinessTypeName'].isin(types)])
         # business_tot = business[business['BusinessTypeName'].isin(types)]
         business_tot = pd.concat(list_halves,ignore_index=True)
-
+        # pickle.dump(business_tot,open(f"../Data/business_{request_leg}_{council}.pkl", "wb"))
 
         def normalize_roles(df):
             out = pd.json_normalize(df)

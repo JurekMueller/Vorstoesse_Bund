@@ -15,6 +15,80 @@ svg.append("g")
 
 ///////////// DOM CREATION ////////////////
 
+///////////// DOM CREATION:  STORY FILTER ////////////////
+
+function storyFilter(leg=selectLeg,rat=selectRat,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='Default',intern=true,extern=true) {
+	if (typeFilter==='Default') {
+		typeFilter = vor_types.map(a => a.de);
+		typeFilter.splice(typeFilter.indexOf('Motion'), 1);
+	} else if (typeFilter==='All') {
+		typeFilter=[]
+	} else if (typeFilter==='Gesetze') {
+		typeFilter=['Interpellation','Anfrage','Fragestunde. Frage'] // filtered out
+	} else if (typeFilter==='Anfragen') {
+		typeFilter=['Motion','Parlamentarische Initiative','Postulat']
+	}
+	typeFilterList = typeFilter;
+	vor_types.forEach(d => typeFilter.includes(d.de) ? d3.select('#'+d.id).property('checked',false) : d3.select('#'+d.id).property('checked',true));
+	
+	selectLinkMin = linkStrength;
+	d3.select('#linkSel'+selectLinkMin).property('selected',true);
+	
+	filteredSubj = subj;
+	d3.select('#subjSel'+filteredSubj.replace(/\s/g, '')).property('selected',true);
+	
+	selectColorDim = color;
+	d3.select('#colSel'+selectColorDim).property('selected',true);
+
+	PartyConnections = intern;
+	d3.select('#internal').property('checked',PartyConnections);
+
+	exPartyConnections = extern;
+	d3.select('#external').property('checked',exPartyConnections);
+
+	if (leg !== selectLeg || rat!==selectRat) {
+		selectLeg = leg;
+		d3.select('#legSel'+selectLeg).property('selected',true);
+
+		selectRat = rat;
+		d3.select('#ratSel'+rat_types.find(d => { return d.value===rat }).id).property('selected',true);
+		
+		d3.selectAll(".loader").style("visibility","visible");
+		d3.selectAll(".overlay").style("visibility","visible");
+		loadFiles();
+	} else {
+		filterAll();
+		update();
+	}
+
+	
+};
+
+/// Story Parties
+d3.select("#storyNat0").on("click", d => storyFilter(leg=50,rat=1,linkStrength=20));
+d3.select("#storyNat1").on("click", d => storyFilter(leg=50,rat=1,linkStrength=20));
+d3.select("#storyNat2").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Partei',typeFilter='All',intern=true,extern=false));
+d3.select("#storyNat3").on("click", d => storyFilter(leg=50,rat=1,linkStrength=40,subj='Alle Themen',color='Partei',typeFilter='All',intern=false,extern=true));
+d3.select("#storyNat4").on("click", d => storyFilter(leg=50,rat=1,linkStrength=5,subj='Medien und Kommunikation',color='Partei',typeFilter='All'));
+d3.select("#storyNat5").on("click", d => storyFilter(leg=50,rat=1,linkStrength=5,subj='Migration',color='Partei',typeFilter='All'));
+d3.select("#storyNat6").on("click", d => storyFilter(leg=50,rat=1,linkStrength=10,subj='Wirtschaft',color='Partei',typeFilter='All'));
+d3.select("#storyNat7").on("click", d => storyFilter(leg=50,rat=1,linkStrength=5,subj='Soziale Fragen',color='Partei',typeFilter='All'));
+d3.select("#storyNat8").on("click", d => storyFilter(leg=48,rat=1,linkStrength=10,subj='Landwirtschaft',color='Partei',typeFilter='All'));
+d3.select("#storyNat9").on("click", d => storyFilter(leg=50,rat=1,linkStrength=10,subj='Landwirtschaft',color='Partei',typeFilter='All'));
+d3.select("#storyNat10").on("click", d => storyFilter(leg=50,rat=1,linkStrength=10,subj='Umwelt',color='Partei',typeFilter='All'));
+d3.select("#storyNat11").on("click", d => storyFilter(leg=48,rat=1,linkStrength=10,subj='Umwelt',color='Partei',typeFilter='All'));
+d3.select("#storyNat12").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Partei',typeFilter='Gesetze'));
+d3.select("#storyNat13").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Partei',typeFilter='Anfragen'));
+d3.select("#storyNat14").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
+d3.select("#storyNat15").on("click", d => storyFilter(leg=50,rat=1,linkStrength=30,subj='Alle Themen',color='Partei',typeFilter='All',intern=false,extern=true));
+
+d3.select("#storySta0").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All'));
+d3.select("#storySta1").on("click", d => storyFilter(leg=48,rat=2,linkStrength=20,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
+d3.select("#storySta2").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
+d3.select("#storySta3").on("click", d => storyFilter(leg=51,rat=2,linkStrength=20,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
+d3.select("#storySta4").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All',intern=false,extern=true));
+d3.select("#storySta5").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All'));
+d3.select("#storySta6").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All'));
 ///////////// DOM CREATION: Translation ////////////////
 
 d3.select("#langSelectFr")
@@ -37,7 +111,13 @@ var currentLang;
 
 function translate(lang,nodes) {
 	dictionary.forEach(function(d) {d3.select('#'+d.id).text(d.translation[lang])});
-	vor_types.forEach(function(d) {d3.select('#'+d.id+'T').text(d[lang])});
+	vor_types.forEach(function(d) {
+		if (d.de==='Fragestunde. Frage' && lang==='de') {
+			d3.select('#'+d.id+'T').text('Fragestunde Frage');
+		} else {
+			d3.select('#'+d.id+'T').text(d[lang]);
+		};
+	});
 	exint.forEach(function(d) {d3.select('#'+d.id+'T').text(d[lang])});
 	rat_types.forEach(function(d) {d3.select('#ratSel'+d.id).text(d[lang])});
 	colorDim.forEach(function(d) {d3.select('#colSel'+d).text(dictProperties[d][lang])});
@@ -89,8 +169,8 @@ var legOption = legWrapper
 				.attr("id",function(d) {return 'ratSel'+d.id})
 				.attr("value",function(d) {return d.value});
 
-selectRat = 2
-d3.select('#ratSelSta').property('selected',true);
+selectRat = 1
+d3.select('#ratSelNat').property('selected',true);
 ///////////// DOM CREATION: COLOR DIM SELECT ////////////////
 
 // XXX Needs Change
@@ -261,6 +341,7 @@ var exintButton = exintWrapper
         .attr("class", "form-check");
 exintButton.append("input")
 	.attr("type", "checkbox")
+	.attr("id", function(d) { return d.id; })
 	.attr("value", function(d) { return d.id; })
 	.attr("class", "form-check-input")
 	.property('checked',true)
