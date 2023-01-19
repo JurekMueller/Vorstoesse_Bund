@@ -64,31 +64,6 @@ function storyFilter(leg=selectLeg,rat=selectRat,linkStrength=20,subj='Alle Them
 	
 };
 
-/// Story Parties
-d3.select("#storyNat0").on("click", d => storyFilter(leg=50,rat=1,linkStrength=20));
-d3.select("#storyNat1").on("click", d => storyFilter(leg=50,rat=1,linkStrength=20));
-d3.select("#storyNat2").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Partei',typeFilter='All',intern=true,extern=false));
-d3.select("#storyNat3").on("click", d => storyFilter(leg=50,rat=1,linkStrength=40,subj='Alle Themen',color='Partei',typeFilter='All',intern=false,extern=true));
-d3.select("#storyNat4").on("click", d => storyFilter(leg=50,rat=1,linkStrength=5,subj='Medien und Kommunikation',color='Partei',typeFilter='All'));
-d3.select("#storyNat5").on("click", d => storyFilter(leg=50,rat=1,linkStrength=5,subj='Migration',color='Partei',typeFilter='All'));
-d3.select("#storyNat6").on("click", d => storyFilter(leg=50,rat=1,linkStrength=10,subj='Wirtschaft',color='Partei',typeFilter='All'));
-d3.select("#storyNat7").on("click", d => storyFilter(leg=50,rat=1,linkStrength=5,subj='Soziale Fragen',color='Partei',typeFilter='All'));
-d3.select("#storyNat8").on("click", d => storyFilter(leg=48,rat=1,linkStrength=10,subj='Landwirtschaft',color='Partei',typeFilter='All'));
-d3.select("#storyNat9").on("click", d => storyFilter(leg=50,rat=1,linkStrength=10,subj='Landwirtschaft',color='Partei',typeFilter='All'));
-d3.select("#storyNat10").on("click", d => storyFilter(leg=50,rat=1,linkStrength=10,subj='Umwelt',color='Partei',typeFilter='All'));
-d3.select("#storyNat11").on("click", d => storyFilter(leg=48,rat=1,linkStrength=10,subj='Umwelt',color='Partei',typeFilter='All'));
-d3.select("#storyNat12").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Partei',typeFilter='Gesetze'));
-d3.select("#storyNat13").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Partei',typeFilter='Anfragen'));
-d3.select("#storyNat14").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
-d3.select("#storyNat15").on("click", d => storyFilter(leg=50,rat=1,linkStrength=30,subj='Alle Themen',color='Partei',typeFilter='All',intern=false,extern=true));
-
-d3.select("#storySta0").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All'));
-d3.select("#storySta1").on("click", d => storyFilter(leg=48,rat=2,linkStrength=20,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
-d3.select("#storySta2").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
-d3.select("#storySta3").on("click", d => storyFilter(leg=51,rat=2,linkStrength=20,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
-d3.select("#storySta4").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All',intern=false,extern=true));
-d3.select("#storySta5").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All'));
-d3.select("#storySta6").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All'));
 ///////////// DOM CREATION: Translation ////////////////
 
 d3.select("#langSelectFr")
@@ -97,29 +72,35 @@ d3.select("#langSelectFr")
 d3.select("#langSelectDe")
 				.on('click',function() {translate('de',node);});
 
-let dictionary =   [{'id':'ratT',"translation":{'de':'Rat','fr':'Conseil'}},
-					{'id':'legT',"translation":{'de':'Legislatur','fr':'Législature'}},
-					{'id':'topT',"translation":{'de':'Thema','fr':'Sujet'}},
-					{'id':'colT',"translation":{'de':'Farbe','fr':'Couleur'}},
-					{'id':'linT',"translation":{'de':'Mindestanzahl Zusammenarbeiten','fr':'Nombre minimum de collaborations'}},
-					{'id':'busT',"translation":{'de':'Art des Vorstosses','fr':"Type d'intervention"}},
-					{'id':'cooT',"translation":{'de':'Zusammenarbeit','fr':'Coopération'}},
-					{'id':'netT',"translation":{'de':'Netzwerkvisualisierung','fr':'Visualisation du réseau'}},
+let dictLabel =   [{'id':'ratT','de':'Rat','fr':'Conseil'},
+					{'id':'legT','de':'Legislatur','fr':'Législature'},
+					{'id':'topT','de':'Thema','fr':'Sujet'},
+					{'id':'colT','de':'Farbe','fr':'Couleur'},
+					{'id':'linT','de':'Mindestanzahl Zusammenarbeiten','fr':'Nombre minimum de collaborations'},
+					{'id':'busT','de':'Art des Vorstosses','fr':"Type d'intervention"},
+					{'id':'cooT','de':'Zusammenarbeit','fr':'Coopération'},
+					{'id':'datQT','de':'Datenquelle','fr':'Source de données'},
+					{'id':'datAT','de':'Datenaufbereitung','fr':'Préparation des données'},
 				 ]
 
-var currentLang;
+var currentLang = 'de';
 
 function translate(lang,nodes) {
-	dictionary.forEach(function(d) {d3.select('#'+d.id).text(d.translation[lang])});
+	dictContent.forEach(function(d) {d3.select('#'+d.id).html(d[lang])})
+	dictHeadings.forEach(function(d) {d3.select('#'+d.id).html(d[lang])});
+	dictLabel.forEach(function(d) {d3.select('#'+d.id).text(d[lang])});
 	vor_types.forEach(function(d) {
 		if (d.de==='Fragestunde. Frage' && lang==='de') {
 			d3.select('#'+d.id+'T').text('Fragestunde Frage');
+			d3.select('#'+d.id+'T2').text('Fragestunde Frage');
 		} else {
 			d3.select('#'+d.id+'T').text(d[lang]);
+			d3.select('#'+d.id+'T2').text(d[lang]);
 		};
 	});
 	exint.forEach(function(d) {d3.select('#'+d.id+'T').text(d[lang])});
-	rat_types.forEach(function(d) {d3.select('#ratSel'+d.id).text(d[lang])});
+	rat_types.forEach(function(d) {d3.select('#ratSel'+d.id).text(d[lang]);
+								   d3.select('#storyLabel'+d.id).text(d[lang]);});
 	colorDim.forEach(function(d) {d3.select('#colSel'+d).text(dictProperties[d][lang])});
 	vor_subj.forEach(function(d) {d3.select('#subjSel'+d.de.replace(/\s/g, '')).text(d[lang])});
 	currentLang = lang;
@@ -143,6 +124,33 @@ function translate(lang,nodes) {
 				dictProperties['Vorstösse'][lang]+": " + d.Collab.length
 				});
 			};
+
+	/// Story Parties
+	// Add story buttons here so they work when using translate
+	d3.select("#storyNat0").on("click", d => storyFilter(leg=50,rat=1,linkStrength=20));
+	d3.select("#storyNat1").on("click", d => storyFilter(leg=50,rat=1,linkStrength=20));
+	d3.select("#storyNat2").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Partei',typeFilter='All',intern=true,extern=false));
+	d3.select("#storyNat3").on("click", d => storyFilter(leg=50,rat=1,linkStrength=40,subj='Alle Themen',color='Partei',typeFilter='All',intern=false,extern=true));
+	d3.select("#storyNat4").on("click", d => storyFilter(leg=50,rat=1,linkStrength=5,subj='Medien und Kommunikation',color='Partei',typeFilter='All'));
+	d3.select("#storyNat5").on("click", d => storyFilter(leg=50,rat=1,linkStrength=5,subj='Migration',color='Partei',typeFilter='All'));
+	d3.select("#storyNat6").on("click", d => storyFilter(leg=50,rat=1,linkStrength=10,subj='Wirtschaft',color='Partei',typeFilter='All'));
+	d3.select("#storyNat7").on("click", d => storyFilter(leg=50,rat=1,linkStrength=5,subj='Soziale Fragen',color='Partei',typeFilter='All'));
+	d3.select("#storyNat8").on("click", d => storyFilter(leg=48,rat=1,linkStrength=10,subj='Landwirtschaft',color='Partei',typeFilter='All'));
+	d3.select("#storyNat9").on("click", d => storyFilter(leg=50,rat=1,linkStrength=10,subj='Landwirtschaft',color='Partei',typeFilter='All'));
+	d3.select("#storyNat10").on("click", d => storyFilter(leg=50,rat=1,linkStrength=10,subj='Umwelt',color='Partei',typeFilter='All'));
+	d3.select("#storyNat11").on("click", d => storyFilter(leg=48,rat=1,linkStrength=10,subj='Umwelt',color='Partei',typeFilter='All'));
+	d3.select("#storyNat12").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Partei',typeFilter='Gesetze'));
+	d3.select("#storyNat13").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Partei',typeFilter='Anfragen'));
+	d3.select("#storyNat14").on("click", d => storyFilter(leg=50,rat=1,linkStrength=60,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
+	d3.select("#storyNat15").on("click", d => storyFilter(leg=50,rat=1,linkStrength=30,subj='Alle Themen',color='Partei',typeFilter='All',intern=false,extern=true));
+
+	d3.select("#storySta0").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All'));
+	d3.select("#storySta1").on("click", d => storyFilter(leg=48,rat=2,linkStrength=20,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
+	d3.select("#storySta2").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
+	d3.select("#storySta3").on("click", d => storyFilter(leg=51,rat=2,linkStrength=20,subj='Alle Themen',color='Geschlecht',typeFilter='All'));
+	d3.select("#storySta4").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All',intern=false,extern=true));
+	d3.select("#storySta5").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All'));
+	d3.select("#storySta6").on("click", d => storyFilter(leg=50,rat=2,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='All'));
 };
 
 ///////////// DOM CREATION: RAT SELECT ////////////////
@@ -559,7 +567,7 @@ function loadFiles() {
 				.append("option")
 				.attr("id",function(d) {return "subjSel"+d.de.replace(/\s/g, '')})
 				.attr("value",function(d) {return d.de})
-		translate('de'); // translate after all doms have been created
+		translate(currentLang); // translate after all doms have been created
 		
 		//	data read and store
 		d3.json("Data/netzwerk_"+selectLeg+"_"+selectRat+".json").then(function(g) {
@@ -851,3 +859,311 @@ function genderLabel( {
   }) {
 	return dictGender[generatedLabels[i]][currentLang]
   }
+
+  let dictContent = [
+	{'id':'textIntro',
+		'de':'<p class="pMarg" style="text-align: justify">Die <b>Visualisierung</b> auf dieser Seite zeigt die <b>Aktivitäten und Zusammenarbeit</b> von Mitgliedern des Nationalrats und des Ständerats im Rahmen von parlamentarischen <b>Vorstössen</b>. \
+		Diese werden als <b>Netzwerkansicht</b> dargestellt, mit den Abgeordneten als Knoten und den gemeinsam eingereichten Vorstössen als Verbindungen. \
+		Die verfügbaren Daten decken den Zeitraum ab der <b>48. Legislaturperiode</b> ab.</p> \
+		\
+		<p class="pMarg" style="text-align: justify">Die <b>Grösse der Knoten</b> entspricht der Anzahl der beteiligten Vorstösse. \
+		<b>Achtung: Eine Beteiligung an einem Vorstoss gibt keine Information über die Art und das Ausmass der Beteiligung (ob Initiierung, Ausarbeitung oder lediglich Mitunterschrift).</b> <br> \
+		Die <b>Farbe</b> der Knoten signalisiert eine von vier wählbaren persönlichen Eigenschaften (Partei, Geschlecht, Dienstjahre insgesamt und Dienstjahre in der ausgewählten Legislaturperiode). \
+		Abgeordnete ohne eingereichten Vorstoss werden im äussersten Ring dargestellt.</p> \
+		\
+		<p class="pMarg" style="text-align: justify">Die <b>Breite der Verbindung</b> zwischen zwei Abgeordneten zeigt an, wie viele Vorstösse gemeinsam eingereicht wurden. \
+		Um eine bessere Übersicht zu gewährleisten, kann frei gewählt werden ab wie vielen gemeinsamen Vorstössen eine Verbindung angezeigt werden soll (standardmässig ab 10). \
+		Aus performance Gründen wird die <b>Mindestanzahl der Zusammenarbeiten</b> automatisch erhöht, falls die Anzahl an Verbindungen zu gross wird</p> \
+		\
+		<p class="pMarg" style="text-align: justify">Die für die Visualisierung <b>berücksichtigten Vorstösse</b> können nach <b>Art und Thema gefiltert</b> werden. \
+		Um einen <b>Einstieg in die Mehrdimensionalität</b> der dargestellten Informationen zu ermöglichen, \
+		sind weiter unten einige <a href="#stories">Beobachtungen</a> beschrieben, die durch Links auf der Visualisierung sichtbar gemacht werden können. </p> \
+		\
+		<p class="pMarg" style="text-align: justify">Die verschiedenen <a href="#explenationVor">Vorstossarten</a>, die zugrundeliegenden <a href="#data">Daten</a> \
+		und der zugrundeliegende <a href="#code">Code</a> werden unten im Detail erläutert.</p> \
+		\
+		<p class="pMarg text-center h5 mt-3"> \
+		  <b>Diese Visualisierung ist interaktiv: Ziehen Sie die Knoten, lesen Sie die Tooltips und filtern Sie nach Belieben. <br> \
+		  Viel Spass beim Spielen und Entdecken!</b> \
+		</p>',
+		'fr':'<p class="pMarg" style="text-align: justifier">La <b>visualisation</b> sur cette page montre les <b>activités et la coopération</b> des membres du Conseil national et de la Conseil des États dans le cadre des <b>interventions</b> parlementaires. \
+		Celles-ci sont présentées sous la forme d\'une <b>vue de réseau</b>, avec les députés comme nœuds et les propositions soumises conjointement comme connexions. \
+		Les données disponibles couvrent la période de <b>48. Législative</b> du.</p> \
+		\
+		<p class="pMarg" style="text-align: justifier">La <b>taille du nœud</b> correspond au nombre d\'avancées concernées. \
+		<b>Attention : La participation à une initiative ne fournit aucune information sur le type et l\'étendue de la participation (qu\'il s\'agisse d\'une initiation, d\'une élaboration ou simplement d\'une signature conjointe).</b> <br> \
+		La <b>couleur</b> des nœuds signale l\'une des quatre caractéristiques personnelles sélectionnables (parti, sexe, nombre total d\'années de service et années de service dans la législature sélectionnée). \
+		Les députés qui n\'ont pas soumis de proposition sont affichés dans l\'anneau le plus à l\'extérieur.</p> \
+		\
+		<p class="pMarg" style="text-align: justifier">La <b>largeur de la connexion</b> entre deux députés indique combien de demandes ont été soumises ensemble. \
+		Afin d\'assurer une meilleure vue d\'ensemble, vous pouvez choisir librement le nombre d\'avances conjointes qu\'une connexion doit afficher (par défaut, à partir de 10). \
+		Pour des raisons de performances, le <b>nombre minimum de collaborations</b> est automatiquement augmenté si le nombre de connexions devient trop important</p> \
+		\
+		<p class="pMarg" style="text-align: justifier">Les avancées <b>considérées</b> pour la visualisation peuvent être filtrées par <b>type et sujet</b>. \
+		Pour permettre <b>l\'entrée dans la multidimensionnalité</b> des informations présentées, \
+		certaines <a href="#stories">observations</a> sont décrites ci-dessous, qui peuvent être rendues visibles grâce à des liens sur la visualisation. </p>\
+		\
+		<p class="pMarg" style="text-align: justifier">Les différents <a href="#explenationVor">types d\'avance</a>, les <a href="#data">données</ un> \
+		et le <a href="#code">code</a> sous-jacent sont détaillés ci-dessous.</p> \
+		\
+		<p class="pMarg text-center h5 mt-3"> \
+		<b>Cette visualisation est interactive : faites glisser les nœuds, lisez les info-bulles et filtrez comme vous le souhaitez. <br> \
+		Amusez-vous à jouer et à découvrir !</b> \
+		</p>'
+	},
+	{
+		'id':'textStoryNat',
+		'de':'<p style="text-align:center"><i>Die folgende Analyse bezieht sich hauptsächlich auf die <a href="javascript:void(0)" id="storyNat0">50. Legislaturperiode</a></i></p> \
+		<p style="text-align: justify">\
+		  Die <a href="javascript:void(0)" id="storyNat1">Zusammenarbeit im Nationalrat</a> findet zu einem grossen Teil innerhalb der Parteien statt.\
+		  Die überparteiliche Verknüpfung der parteiinternen Netzwerke zeigt eine klare Aufteilung entlang der politischen links-rechts Achse. \
+		  Auf der politischen Linken bilden die Grünen und die SP einen gemeinsamen Cluster und auf der politisch rechten Seite die SVP.\
+		  Die Brücke zwischen beiden Clustern wird von den Mitte-Parteien (CVP, FDP, glp, EVP und BDP) gebildet, \
+		  wobei sich die EVP und glp eher in der Nähe des Grüne/SP Clusters und die FDP eher in der Nähe des SVP Clusters gruppieren. <br>\
+		  Die Partei mit der grössten <a href="javascript:void(0)" id="storyNat2">parteiinternen Zusammenarbeit</a> ist die SP \
+			und die stärkste <a href="javascript:void(0)" id="storyNat3">überparteiliche Vernetzung</a> existiert zwischen SP und den Grünen.\
+		</p>\
+		<p style="text-align: justify">\
+		  Die Zusammenarbeit über Parteigrenzen hinweg ist auch Themenabhängig. Ein Thema mit relativ viel lagerübergreifende Zusammenarbeit ist \
+		  <a href="javascript:void(0)" id="storyNat4">Medien und Kommunikation</a>\
+		  (siehe z.B. Balthasar Glättli (Grüne) und Franz Grüter (SVP)). Ein Thema wo es dagegen kaum lagerübergreifende Zusammenarbeit gibt ist \
+		  <a href="javascript:void(0)" id="storyNat5">Migration</a>.\
+		  Auch die politische Nähe der Mitte-Parteien zum linken oder rechten Lager kann sich je nach Thema unterscheiden. \
+		  Im Thema <a href="javascript:void(0)" id="storyNat6">Wirtschaft</a> beispielsweise arbeiten die Mitte-Parteien BDP und CVP enger mit der SVP zusammen \
+		  und im Thema <a href="javascript:void(0)" id="storyNat7">Soziale Fragen</a> enger mit den Linksparteien.\
+		</p>\
+		<p style="text-align: justify">\
+		  Das politische Interesse an bestimmten Themen kann sich auch mit der Zeit wandeln. \
+		  War <a href="javascript:void(0)" id="storyNat8">Landwirtschaft in der 48. Legislatur</a> noch ein von vor allem der SVP und nur teilweise den Grünen bearbeitetes Thema, \
+		  formiert sich spätestens ab der <a href="javascript:void(0)" id="storyNat9">50. Legislatur</a> ein linkes Netzwerk aus den Grünen, SP und glp. <br>\
+		  Das Thema <a href="javascript:void(0)" id="storyNat10">Umwelt hat in der 50. Legislatur</a> im Vergleich \
+		  zu den <a href="javascript:void(0)" id="storyNat11">Legislaturen davor</a> stark an Bedeutung gewonnen.\
+		  Ein Grund dafür könnte die Klimabewegung sein die seit 2018 stark an Momentum gewonnen hat.\
+		  Wurde jedoch das Thema in den Legislaturen davor noch von allen politischen Lagern bearbeitet, \
+		  so ist es in der 50. Legislatur vor allem ein Thema von SP, Grünen und glp geworden.\
+		</p>\
+		<p style="text-align: justify">\
+		  Die Abgeordneten der SP sind an den meisten Vorstössen beteiligt, sowohl bezüglich Vorstössen die die \
+		  <a href="javascript:void(0)" id="storyNat12">Gesetzgebung</a> betreffen, als auch bei <a href="javascript:void(0)" id="storyNat13">Anfragen</a>.\
+		  Ein Teilgrund dafür ist auch die starke parteiinterne Zusammenarbeit und die enge Zusammenarbeit mit den Grünen. <br>\
+		  Die Abgeordnete Martina Munz (SP) war dabei die aktivste Abgeordnete des Nationalrats in der 50. Legislaturperiode und an insgesamt 1003 Vorstössen beteiligt \
+		  (524 Vorstösse betreffend der Gesetzgebung und 479 Anfragen). Die Zweit- und Drittplazierten sind ebenfalls <a href="javascript:void(0)" id="storyNat14">Frauen aus der SP</a>: \
+		  Claudia Friedl mit 936 Vorstössen und Bea Heim mit 840 Vorstössen.<br>\
+		  Die grössten <a href="javascript:void(0)" id="storyNat15">Brückenbauer</a> zwischen dem linken und dem rechten Lager waren Karl Vogler von der csp-ow und Thomas Weibel von der glp.\
+		</p>',
+		'fr':'<p style="text-align:center"><i>L\'analyse suivante concerne principalement le <a href="javascript:void(0)" id="storyNat0">50. Période législative</a></i></p> \
+		<p style="text-align : justifier">\
+		La <a href="javascript:void(0)" id="storyNat1">coopération au sein du Conseil national</a> se fait en grande partie au sein des partis.\
+		L\'articulation interpartisale des réseaux internes du parti montre une nette division le long de l\'axe politique gauche-droite. \
+		À gauche politique, les Verts et le PS forment un groupe commun et à droite politique, l\'UDC.\
+		Le pont entre les deux clusters est formé par les middle parties (PDC, PLR, PVL, PEV et PBD), \
+		selon lequel l\'PEV et le PVL sont regroupés plus étroitement dans le groupe Verts/PS et le PLR plus étroitement dans le groupe UDC. <br>\
+		La partie avec la plus grande <a href="javascript:void(0)" id="storyNat2">coopération interne</a> est le PS \
+		et le <a href="javascript:void(0)" id="storyNat3">réseau bipartite</a> le plus fort existe entre le PS et les Verts.\
+		</p>\
+		<p style="text-align : justifier">\
+		La coopération entre les partis dépend également du sujet. Un sujet avec une quantité relativement importante de collaboration entre les camps est \
+		<a href="javascript:void(0)" id="storyNat4">médias et communication</a>\
+		(voir par exemple Balthasar Glättli (Parti Vert) et Franz Grüter (UDC)). Un sujet où il n\'y a pratiquement aucune coopération entre les camps est \
+		<a href="javascript:void(0)" id="storyNat5">politique migratoire</a>.\
+		La proximité politique des partis du centre avec le camp de gauche ou de droite peut également différer selon les sujets. \
+		Dans le sujet <a href="javascript:void(0)" id="storyNat6">économie</a>, par exemple, les partis du centre PBD et PDC travaillent plus étroitement avec l\'UDC \
+		et dans le sujet <a href="javascript:void(0)" id="storyNat7">questions sociales</a> plus étroitement avec les partis de gauche.\
+		</p>\
+		<p style="text-align : justifier">\
+		L\'intérêt politique pour certaines questions peut également changer avec le temps. \
+		L\'<a href="javascript:void(0)" id="storyNat8">agriculture dans la 48e législature</a> était-elle encore un sujet traité principalement par l\'UDC et seulement partiellement par les Verts, \
+		formulaires au plus tard à partir de <a href="javascript:void(0)" id="storyNat9">50. Législature</a> un réseau de gauche des Verts, PS et PVL. <br>\
+		Le sujet <a href="javascript:void(0)" id="storyNat10">environnement a dans la 50e législature</a> en comparaison \
+		aux <a href="javascript:void(0)" id="storyNat11">législatures avant cela</a> ont gagné en importance.\
+		Une des raisons à cela pourrait être le mouvement climatique, qui a pris de l\'ampleur depuis 2018.\
+		Pourtant, si le sujet a été traité par tous les camps politiques dans les législatures précédentes,\
+		ainsi, dans la 50e législature, il est devenu principalement un sujet de PS, les Verts et PVL.\
+		</p>\
+		<p style="text-align : justifier">\
+		Les députés du PS sont impliqués dans la plupart des initiatives, tant en ce qui concerne les initiatives que le \
+		<a href="javascript:void(0)" id="storyNat12">législation</a>, ainsi que <a href="javascript:void(0)" id="storyNat13">enquêtes</a> >.\
+		Cela s\'explique en partie par la forte coopération au sein du parti et l\'étroite collaboration avec les Verts. <br>\
+		La députée Martina Munz (PS) a été la membre la plus active du Conseil national au cours de la 50e législature et a participé à un total de 1003 initiatives \
+		(524 demandes de législation et 479 enquêtes). Les deuxième et troisième places sont également des <a href="javascript:void(0)" id="storyNat14">femmes de PS</a> : \
+		Claudia Friedl avec 936 avances et Bea Heim avec 840 avances.<br>\
+		Les plus grands <a href="javascript:void(0)" id="storyNat15">bâtisseurs de ponts</a> entre les camps de gauche et de droite étaient Karl Vogler de csp-ow et Thomas Weibel de PVL.\
+		</p>'
+	},
+	{
+		'id':'textStorySta',
+		'de':'<p style="text-align:center"><i>Die folgende Analyse bezieht sich hauptsächlich auf die <a href="javascript:void(0)" id="storySta0">50. Legislaturperiode</a></i></p>\
+		<p style="text-align: justify">\
+		  Die Meisten Trends aus dem Nationalrat, lassen sich in auch so ähnlich im Ständerat beobachten.\
+		</p>\
+		<p>\
+		  Ein Unterschied zwischen National- und Ständerat ist der Frauenanteil. Im Ständerat ist dieser traditionell deutlich kleiner. \
+		  Von der <a href="javascript:void(0)" id="storySta1">48.</a> bis zur <a href="javascript:void(0)" id="storySta2">50. Legislaturperiode</a> \
+		  ist er stetig bis auf einen Wert von 15 % gesunken und erst zur <a href="javascript:void(0)" id="storySta3">51. Legislatur</a> wieder angestiegen.\
+		</p>\
+		<p style="text-align: justify">\
+		  Ein weiterer Unterschied zwischen National- und Ständerat ist, die <a href="javascript:void(0)" id="storySta4">parteiübergreifende Zusammenarbeit</a> \
+		  die im Ständerat tendenziell grösser ist als im Nationalrat. \
+		  Dennoch gibt es eine sichtbare <a href="javascript:void(0)" id="storySta5">Aufteilung der Netzwerke</a> nach politischen Lagern. \
+		  Im Gegensatz zum Nationalrat dominieren allerdings Hier die Mitte-Parteien, sowohl im Hinblick auf Anzahl der Abgeordneten, als auch Zusammenarbeit.\
+		  Im Ständerat stellen die CVP und die FDP die Abgeordneten die in der 50. Legislaturperiode and den meissten Vorstössen beteiligt waren.\
+		</p>\
+		<p style="text-align: justify">\
+		  Der in der <a href="javascript:void(0)" id="storySta6">50. Legislaturperiode</a> an den meisten Vorstössen beteiligte Abgeordnete war Damian Müller (FDP, Luzern) mit 152 Vorstössen. \
+		  Die meisten Vorstösse bezüglich Gesetzgebung hatte Erich Ettlin (CVP, Obwalden, 115 Vorstösse) und bezüglich Anfragen Anne Seydoux-Christe (CVP, Jura, 61 Vorstösse) zu verzeichnen.\
+		  Anne Seydoux-Christe war auch die grösste Brückenbauerin zwischen den politischen Lagern.\
+		</p>',
+		'fr':'<p style="text-align:center"><i>L\'analyse suivante concerne principalement le <a href="javascript:void(0)" id="storySta0">50. Période législative</a></i></p>\
+		<p style="text-align : justifier">\
+		La plupart des tendances issues du Conseil national s\'observent également de manière similaire au Conseil des États.\
+		</p>\
+		<p>\
+		Une différence entre le Conseil national et le Conseil des États est la proportion de femmes. Au Conseil des Etats, c\'est traditionnellement beaucoup moins important. \
+		Du <a href="javascript:void(0)" id="storySta1">48.</a> au <a href="javascript:void(0)" id="storySta2">50. législature</a> \
+		il a régulièrement chuté à une valeur de 15 % et seulement à <a href="javascript:void(0)" id="storySta3">51. La législature</a> a de nouveau augmenté.\
+		</p>\
+		<p style="text-align : justifier">\
+		Une autre différence entre le Conseil national et le Conseil des États est la <a href="javascript:void(0)" id="storySta4">coopération entre les partis</a> \
+		qui tend à être plus importante au Conseil des États qu\'au Conseil national. \
+		Cependant, il existe une <a href="javascript:void(0)" id="storySta5">division des réseaux</a> visible selon les camps politiques. \
+		Contrairement au Conseil national, cependant, les partis du centre dominent ici, tant en termes de nombre de députés que de coopération.\
+		Au Conseil des États, le CVP et le FDP sont les députés qui ont été impliqués dans la plupart des initiatives de la 50e législature.\
+		</p>\
+		<p style="text-align : justifier">\
+		Celui du <a href="javascript:void(0)" id="storySta6">50. Législature</a> Le député concerné par la plupart des demandes était Damian Müller (FDP, Lucerne) avec 152 demandes. \
+		Erich Ettlin (CVP, Obwald, 115 requêtes) et Anne Seydoux-Christe (CVP, Jura, 61 requêtes) ont fait le plus de demandes de législation.\
+		Anne Seydoux-Christe a également été la plus grande bâtisseuse de ponts entre les camps politiques.\
+		</p>'
+	},
+	{
+		'id':'textVorInit',
+		'de':'Mit einer <b>Parlamentarische Initiative</b> kann ein Ratsmitglied, \
+		den Entwurf zu einem Erlass oder die Grundzüge eines solchen Erlasses vorschlagen. \
+		Die Leitung der Gesetzgebungsarbeiten erfolgt durch eine Kommission des National- oder Ständerates.',
+		'fr':'Par la voie de <b>l\'initiative parlementaire</b>, un député peut déposer un projet d\'acte ou les grandes lignes d\'un tel acte. \
+		Les travaux législatifs sont menés par une commission du Conseil national ou du Conseil des Etats.'
+	},
+	{
+		'id':'textVorMot',
+		'de':'Mit einer <b>Motion</b> wird der Bundesrat beauftragt, einen Entwurf zu einem Erlass der Bundesversammlung vorzulegen oder eine Massnahme zu treffen.',
+		'fr':'La <b>motion</b> est une intervention qui charge le Conseil fédéral de déposer un projet d\'acte de l\'Assemblée fédérale ou de prendre une mesure.'
+	},
+	{
+		'id':'textVorPost',
+		'de':'Ein <b>Postulat</b> beauftragt den Bundesrat zu prüfen und zu berichten, ob ein Entwurf zu einem Erlass der Bundesversammlung vorgelegt oder eine Massnahme getroffen werden muss.',
+		'fr':'Le <b>postulat</b> charge le Conseil fédéral d\'examiner l\'opportunité, soit de déposer un projet d\'acte de l\'Assemblée fédérale, soit de prendre une mesure et de présenter un rapport à ce sujet.'
+	},
+	{
+		'id':'textVorInter',
+		'de':'Mit einer <b>Interpellation</b> verlangt ein Ratsmitglied vom Bundesrat Auskunft über wichtige innen- und aussenpolitische Ereignisse und Angelegenheiten des Bundes. \
+		Die Urheber:innen können beim Einreichen der Interpellation beantragen, dass diese dringlich erklärt wird. Nach Beantwortung durch den Bundesrat können die Urheber:innen eine Diskussion darüber verlangen.',
+		'fr':'En déposant une <b>interpellation</b>, un député demande au Conseil fédéral de leur fournir des informations sur des événements ou des problèmes concernant soit la politique intérieure ou extérieure, soit l\'administration. \
+		Lors du dépôt de l\'interpellation, les auteurs peuvent demander qu\'elle soit déclarée urgente. Après réponse du Conseil fédéral, les auteurs peuvent demander une discussion à ce sujet.'
+	},
+	{
+		'id':'textVorQuest',
+		'de':'Eine <b>Anfrage</b> verlangt ein Ratsmitglied vom Bundesrat Auskunft über wichtige innen- und aussenpolitische Ereignisse und Angelegenheiten des Bundes. \
+		Die Urheber:innen können beim Einreichen der Interpellation beantragen, dass diese dringlich erklärt wird. \
+		Anders als bei der Interpellation gibt es nach Beantwortung durch den Bundesrat keine Möglichkeit zur Diskussion.',
+		'fr':'La <b>question</b> permet à un ou une parlementaire d\'exiger du Conseil fédéral qu\'il fournisse des renseignements sur une affaire de politique intérieure ou extérieure importante.. \
+		Lors du dépôt de l\'interpellation, les auteurs peuvent demander qu\'elle soit déclarée urgente. \
+		Contrairement à l\'interpellation, il n\'y a pas de possibilité de discussion une fois que le Bundesrat a répondu.'
+	},
+	{
+		'id':'textVorQuestQuest',
+		'de':'Die Montagssitzungen des Nationalrates der zweiten und dritten Sessionswoche beginnen mit der <b>Fragestunde</b>. \
+		Dabei behandelt der Rat aktuelle Fragen, die Ratsmitglieder bis Mittwochmittag der Vorwoche eingereicht haben.',
+		'fr':'Au Conseil national, les deuxième et troisième semaines de session débutent par une <b>heure des questions</b>, \
+		consacrée aux problèmes d\'actualité. Les questions doivent impérativement avoir été déposées le mercredi précédant l\'heure des questions.'
+	},
+	{
+		'id':'textDataSource',
+		'de':'Die <b>Daten</b> zu den Abgeordneten\
+		und den Vorstössen wurden von der <b>API der Parlamentsdienste</b> bezogen: <a href="https://ws.parlament.ch/odata.svc" target="_blank" rel="noopener noreferrer">ws.parlament.ch/odata.svc</a>. <br>\
+		Die dort verfügbaren Daten können in für Menschen lesbarer Form gesichtet und abgefragt werden in dem z.B. die Metadaten-URL \
+		(<a href="https://ws.parlament.ch/odata.svc" target="_blank" rel="noopener noreferrer">https://ws.parlament.ch/odata.svc/$metadata</a>) \
+		im <a href="https://pragmatiqa.com/xodata/#" target="_blank" rel="noopener noreferrer">Onlinetool von PragmatiQa</a> eingegeben wird.',
+		'fr':'Les <b>données</b> sur les députés\
+		et les requêtes ont été obtenues à partir de l\'<b>API des Services parlementaires</b>: <a href="https://ws.parlament.ch/odata.svc" target="_blank" rel="noopener noreferrer" >ws.parlament.ch/odata.svc</a>. <br>\
+		Les données qui y sont disponibles peuvent être visualisées et interrogées sous une forme lisible par l\'homme, par exemple en saisissant l\'URL des métadonnées \
+		(<a href="https://ws.parlament.ch/odata.svc" target="_blank" rel="noopener noreferrer">https://ws.parlament.ch/odata.svc/$metadata</ a>)\
+		saisies dans l\'outil en ligne <a href="https://pragmatiqa.com/xodata/#" target="_blank" rel="noopener noreferrer">PragmatiQa</a>.'
+	},
+	{
+		'id':'textDataAnal',
+		'de':'<p>\
+		Die Daten wurden mithilfe eines <a href="https://github.com/JurekMueller/Vorstoesse_Bund/tree/master/python" target="_blank" rel="noopener noreferrer">Python-Skripts</a> von der API der Parlamentsdienste abgefragt und verarbeitet. \
+		Kleine <b>Regionalparteien</b> wurden der bundesweiten Mutterpartei zugeordnet, wo eine solche existiert. <br>\
+		Vergangene <b>Parteifusionen oder Umbenennungen</b> (z.B. CVP und BDP zu Mitte) wurden manuell für die gesamte entsprechende Legislaturperiode erfasst. <br>\
+		Seltene <b>Parteiwechsel</b> innerhalb einer Legislaturperiode können zur Darstellung von inkonsistenten Parteizugehörigkeiten führen, da die Daten keine Information über das genaue Datum des Parteiwechsels beinhalten.<br>\
+		Nach der Datenverarbeitung wurden die für die Netzwerkvisualisierung relevanten Daten pro Legislatur\
+		in ein <a href="https://github.com/JurekMueller/Vorstoesse_Bund/tree/master/Data" target="_blank" rel="noopener noreferrer">Netzwerk JSON-Formt</a> (bestehend aus Knoten und Verbindungen) umstrukturiert. <br>\
+	  	</p>',
+		'fr':'<p>\
+		Les données ont été extraites de l\'API à l\'aide d\'un <a href="https://github.com/JurekMueller/Vorstoesse_Bund/tree/master/python" target="_blank" rel="noopener noreferrer">script Python</a> interrogées et traitées par les services parlementaires. \
+		Les petits <b>partis régionaux</b> ont été fusionnés avec le parti parent national lorsqu\'il en existe un. <br>\
+		Les <b>fusions ou changements de nom de parti antérieurs</b> (par exemple, CVP et BDP en Mitte) ont été enregistrés manuellement pour toute la période législative correspondante. <br>\
+		De rares <b>changements de parti</b> au cours d\'une période législative peuvent conduire à la présentation d\'affiliations partisanes incohérentes, puisque les données ne contiennent aucune information sur la date exacte du changement de parti.<br>\
+		Après le traitement des données, les données pertinentes pour la visualisation du réseau ont été stockées par législature\
+		dans un <a href="https://github.com/JurekMueller/Vorstoesse_Bund/tree/master/Data" target="_blank" rel="noopener noreferrer">format réseau JSON</a> (composé de nœuds et de connexions ) restructuré. <br>\
+		</p>'
+	},
+	{
+		'id':'textCode',
+		'de':'Die <b>interaktive Visualisierung</b> wurde hauptsächlich mit der Javaskript Bibliothek <a href="https://d3js.org/" target="_blank" rel="noopener noreferrer">D3.js</a> gebaut.\
+		Darüber hinaus wurde <a href="https://d3-legend.susielu.com/" target="_blank" rel="noopener noreferrer">D3-legend.js</a> verwendet, um die Legenden zu erstellen,\
+		<a href="https://jquery.com/" target="_blank" rel="noopener noreferrer">jQuery</a> für einzelne Komfortfunktionen\
+		und <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer">Bootstrap</a> beim Design der Webseite. <br>\
+		\
+		Die <span class="fw-bold">Visualisierung und die Webseite</span> sind eine Adaption einer ähnlichen Visualisierung der\
+		<a href="https://zusammenarbeit-grossrat-thurgau.opendata.iwi.unibe.ch/" target="_blank" rel="noopener noreferrer">Zusammenarbeit im Grossen Rat von Thurgau</a>. <br>\
+		\
+		Der gesamte <span class="fw-bold">Quellcode</span> und die Daten sind auf \
+		<a href="https://github.com/JurekMueller/Vorstoesse_Bund" target="_blank" rel="noopener noreferrer">Github</a> unter\
+		der <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" rel="noopener noreferrer">Mozilla Public License 2.0</a> veröffentlicht.',
+		'fr':'La <b>visualisation interactive</b> a été principalement construite avec la bibliothèque javascript <a href="https://d3js.org/" target="_blank" rel="noopener noreferrer">D3.js</a> .\
+		De plus, <a href="https://d3-legend.susielu.com/" target="_blank" rel="noopener noreferrer">D3-legend.js</a> a été utilisé pour créer les légendes, \
+		<a href="https://jquery.com/" target="_blank" rel="noopener noreferrer">jQuery</a> pour les fonctions de confort individuelles\
+		et <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer">Bootstrap</a> lors de la conception du site Web. <br>\
+		\
+		La <span class="fw-bold">visualisation et le site Web</span> sont une adaptation d\'une visualisation similaire de la\
+		<a href="https://arbeit-grossrat-thurgau.opendata.iwi.unibe.ch/" target="_blank" rel="noopener noreferrer">Coopération au Conseil de Thurgovie</a>. <br>\
+		\
+		Tout le <span class="fw-bold">code source</span> et les données sont sur \
+		<a href="https://github.com/JurekMueller/Vorstoesse_Bund" target="_blank" rel="noopener noreferrer">Github</a> sous\
+		qui publie la <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" rel="noopener noreferrer">Mozilla Public License 2.0</a>.'
+	},
+	{
+		'id':'textImpress',
+		'de':'<p class="h5">Die interaktive Visualisierung, die auf dieser Seite vorgestellt wird, ist ein Projekt des \
+		<a href="https://www.bfh.ch/en/research/research-areas/public-sector-transformation/" target="_blank" rel="noopener noreferrer">Institute Public Sector Transformation</a> der Berner Fachhochschule.\
+		</p>\
+		<p class="h5"><b>Autor: Jurek Müller</b>\
+		  <a class="ps-2 pe-1" href="https://www.linkedin.com/in/jurek-m%C3%BCller-a21424210/" target="_blank" rel="noopener noreferrer"><img src="./Images/linkedin.svg" style="width: 2%; height: auto;"></a>\
+		  <a class="ps-1 pe-1" href="mailto:jurek_mueller@yahoo.de" target="_blank" rel="noopener noreferrer"><img src="./Images/envelope.svg" style="width: 2%; height: auto;"></a>\
+		  <a class="ps-1" href="https://github.com/JurekMueller/" target="_blank" rel="noopener noreferrer"><img src="./Images/github.svg" style="width: 2%; height: auto;"></a>\
+		</p>\
+		<p class="h5"><b>Lizenz: </b><a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" rel="noopener noreferrer">Mozilla Public License 2.0</a></p>\
+		<p class="h5">Zuletzt aktualisiert: 19.01.2023</p>',
+		'fr':'<p class="h5">La visualisation interactive présentée sur cette page est un projet de \
+		<a href="https://www.bfh.ch/fr/recherche/domaines-de-recherche/transformation-du-secteur-public/" target="_blank" rel="noopener noreferrer">Institute Public Sector Transformation</a> de la Haute école spécialisée bernoise.\
+		</p>\
+		<p class="h5"><b>Auteur : Jurek Müller</b>\
+		<a class="ps-2 pe-1" href="https://www.linkedin.com/in/jurek-m%C3%BCller-a21424210/" target="_blank" rel="noopener noreferrer"> <img src="./Images/linkedin.svg" style="largeur : 2 % ; hauteur : automatique ;"></a>\
+		<a class="ps-1 pe-1" href="mailto:jurek_mueller@yahoo.de" target="_blank" rel="noopener noreferrer"><img src="./Images/envelope.svg" style= "largeur : 2 % ; hauteur : automatique ;"></a>\
+		<a class="ps-1" href="https://github.com/JurekMueller/" target="_blank" rel="noopener noreferrer"><img src="./Images/github.svg" style= "largeur : 2 % ; hauteur : automatique ;"></a>\
+		</p>\
+		<p class="h5"><b>Licence : </b><a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" rel="noopener noreferrer">Mozilla Public License 2.0</a></p>\
+		<p class="h5">Dernière mise à jour : 19.01.2023</p>'
+	},
+  ]
+
+dictHeadings = [
+	{'id':'headTitle','de':'Zusammenarbeit der Abgeordneten <br> im National- & Ständerat',
+	'fr':'Coopération entre les membres du <br> Conseil national et du Conseil des États'},
+	{'id':'headIntro','de':'Einleitung','fr':'Introduction'},
+	{'id':'headViz','de':'Netzwerkvisualisierung','fr':'Visualisation du Réseau'},
+	{'id':'headBus','de':'Erläuterung Vorstösse','fr':'Explication des Interventios'},
+	{'id':'headDat','de':'Erläuterung Daten','fr':'Explication des Données'},
+	{'id':'headCode','de':'Erläuterung Code','fr':'Explication du Code'},
+]
