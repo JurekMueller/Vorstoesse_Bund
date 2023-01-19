@@ -83,7 +83,14 @@ let dictLabel =   [{'id':'ratT','de':'Rat','fr':'Conseil'},
 					{'id':'datAT','de':'Datenaufbereitung','fr':'Préparation des données'},
 				 ]
 
-var currentLang = 'de';
+var currentLang;
+// Set Starting Language depending on browser
+var userLang = navigator.language || navigator.userLanguage;
+if (userLang.includes('fr')) {
+	currentLang='fr';
+} else {
+	currentLang='de';
+};
 
 function translate(lang,nodes) {
 	dictContent.forEach(function(d) {d3.select('#'+d.id).html(d[lang])})
