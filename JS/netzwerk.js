@@ -19,7 +19,7 @@ svg.append("g")
 
 function storyFilter(leg=selectLeg,rat=selectRat,linkStrength=20,subj='Alle Themen',color='Partei',typeFilter='Default',intern=true,extern=true) {
 	if (typeFilter==='Default') {
-		typeFilter = vor_types.map(a => a.de);
+		typeFilter = vorTypes.map(a => a.de);
 		typeFilter.splice(typeFilter.indexOf('Motion'), 1);
 	} else if (typeFilter==='All') {
 		typeFilter=[]
@@ -29,7 +29,7 @@ function storyFilter(leg=selectLeg,rat=selectRat,linkStrength=20,subj='Alle Them
 		typeFilter=['Motion','Parlamentarische Initiative','Postulat']
 	}
 	typeFilterList = typeFilter;
-	vor_types.forEach(d => typeFilter.includes(d.de) ? d3.select('#'+d.id).property('checked',false) : d3.select('#'+d.id).property('checked',true));
+	vorTypes.forEach(d => typeFilter.includes(d.de) ? d3.select('#'+d.id).property('checked',false) : d3.select('#'+d.id).property('checked',true));
 	
 	selectLinkMin = linkStrength;
 	d3.select('#linkSel'+selectLinkMin).property('selected',true);
@@ -51,7 +51,7 @@ function storyFilter(leg=selectLeg,rat=selectRat,linkStrength=20,subj='Alle Them
 		d3.select('#legSel'+selectLeg).property('selected',true);
 
 		selectRat = rat;
-		d3.select('#ratSel'+rat_types.find(d => { return d.value===rat }).id).property('selected',true);
+		d3.select('#ratSel'+ratTypes.find(d => { return d.value===rat }).id).property('selected',true);
 		
 		d3.selectAll(".loader").style("visibility","visible");
 		d3.selectAll(".overlay").style("visibility","visible");
@@ -81,6 +81,8 @@ let dictLabel =   [{'id':'ratT','de':'Rat','fr':'Conseil'},
 					{'id':'cooT','de':'Zusammenarbeit','fr':'Coopération'},
 					{'id':'datQT','de':'Datenquelle','fr':'Source de données'},
 					{'id':'datAT','de':'Datenaufbereitung','fr':'Préparation des données'},
+					{'id':'vizExplT','de':'Erklärungen zur Visualisierung','fr':'Explications sur la visualisation'},
+					{'id':'storyT','de':'Interpretation zur Visualisierung','fr':'Interprétation pour la visualisation'},
 				 ]
 
 var currentLang;
@@ -96,17 +98,17 @@ function translate(lang,nodes) {
 	dictContent.forEach(function(d) {d3.select('#'+d.id).html(d[lang])})
 	dictHeadings.forEach(function(d) {d3.select('#'+d.id).html(d[lang])});
 	dictLabel.forEach(function(d) {d3.select('#'+d.id).text(d[lang])});
-	vor_types.forEach(function(d) {
+	vorTypes.forEach(function(d) {
 		if (d.de==='Fragestunde. Frage' && lang==='de') {
-			d3.select('#'+d.id+'T').text('Fragestunde Frage');
-			d3.select('#'+d.id+'T2').text('Fragestunde Frage');
+			d3.select('#'+d.id+'T').html('<a href='+vorBaseLink[lang]+d['link'][lang]+' target="_blank" rel="noopener noreferrer">Fragestunde Frage</a>');
+			// d3.select('#'+d.id+'T2').text('Fragestunde Frage');
 		} else {
-			d3.select('#'+d.id+'T').text(d[lang]);
-			d3.select('#'+d.id+'T2').text(d[lang]);
+			d3.select('#'+d.id+'T').html('<a href='+vorBaseLink[lang]+d['link'][lang]+' target="_blank" rel="noopener noreferrer">'+d[lang]+'</a>');
+			// d3.select('#'+d.id+'T2').text(d[lang]);
 		};
 	});
 	exint.forEach(function(d) {d3.select('#'+d.id+'T').text(d[lang])});
-	rat_types.forEach(function(d) {d3.select('#ratSel'+d.id).text(d[lang]);
+	ratTypes.forEach(function(d) {d3.select('#ratSel'+d.id).text(d[lang]);
 								   d3.select('#storyLabel'+d.id).text(d[lang]);});
 	colorDim.forEach(function(d) {d3.select('#colSel'+d).text(dictProperties[d][lang])});
 	vor_subj.forEach(function(d) {d3.select('#subjSel'+d.de.replace(/\s/g, '')).text(d[lang])});
@@ -133,6 +135,8 @@ function translate(lang,nodes) {
 			};
 
 	/// Story Parties
+	// Add story expand
+	d3.select("#storyExp").on("click", d => $("#panelStory").collapse('show'));
 	// Add story buttons here so they work when using translate
 	d3.select("#storyNat0").on("click", d => storyFilter(leg=50,rat=1,linkStrength=20));
 	d3.select("#storyNat1").on("click", d => storyFilter(leg=50,rat=1,linkStrength=20));
@@ -162,7 +166,7 @@ function translate(lang,nodes) {
 
 ///////////// DOM CREATION: RAT SELECT ////////////////
 var selectRat;
-let rat_types = [{'id':'Nat','de':'Nationalrat','fr':'Conseil national','value':1},
+let ratTypes = [{'id':'Nat','de':'Nationalrat','fr':'Conseil national','value':1},
 				{'id':'Sta','de':'Ständerat','fr':'Conseil des États','value':2}]
 
 var legWrapper = d3.select("#ratSelect")
@@ -178,7 +182,7 @@ var legWrapper = d3.select("#ratSelect")
 
 var legOption = legWrapper
 				.selectAll(".color-option")
-				.data(rat_types)
+				.data(ratTypes)
 				.enter()
 				.append("option")
 				.attr("id",function(d) {return 'ratSel'+d.id})
@@ -287,18 +291,32 @@ d3.select('#linkSel10').property('selected',true)
 
 // ['Motion','Parlamentarische Initiative','Postulat','Interpellation','Dringliche Interpellation','Fragestunde. Frage','Anfrage','Dringliche Anfrage']  
 // checkboxes for type of vorstoss
-var vor_types = [{id:"filtParlIni",de:"Parlamentarische Initiative", fr:'Initiatives parlementaire'},
-				 {id:"filtMotion",de:"Motion", fr:'Motion'},				 
-				 {id:"filtPostulat",de:"Postulat", fr:'Postulat'},
-				 {id:"filtInterp",de:"Interpellation", fr:'Interpellation'},
-				 {id:"filtAnfr",de:"Anfrage", fr:"Question"},
-				 {id:"filtFragsFrage",de:"Fragestunde. Frage", fr:"Question de l'heure des questions"}];
+
+let vorBaseLink = {de:"https://www.parlament.ch/de/%C3%BCber-das-parlament/parlamentsportraet/\
+beratungsgegenstaende-und-parlamentarische-verfahren/\
+parlamentarische-initiativen-standesinitiativen-vorstoesse/",
+				   fr:"https://www.parlament.ch/fr/%C3%BCber-das-parlament/portrait-du-parlement/\
+objets-soumis-deliberation-et-procedure-parlementaire/\
+initiative-parlementaires-initiatives-deposees-par-des-cantons-et-interventions/"}
+
+let vorTypes = [{id:"filtParlIni",de:"Parlamentarische Initiative", fr:'Initiatives parlementaire',
+				 link:{de:"parlamentarische-initiative",fr:"initiative-parlementaire"}},
+				 {id:"filtMotion",de:"Motion", fr:'Motion',
+				 link:{de:"motion",fr:"motion"}},				 
+				 {id:"filtPostulat",de:"Postulat", fr:'Postulat',
+				 link:{de:"postulat",fr:"postulat"}},
+				 {id:"filtInterp",de:"Interpellation", fr:'Interpellation',
+				 link:{de:"interpellation",fr:"interpellation"}},
+				 {id:"filtAnfr",de:"Anfrage", fr:"Question",
+				 link:{de:"anfrage",fr:"question"}},
+				 {id:"filtFragsFrage",de:"Fragestunde. Frage", fr:"Question de l'heure des questions",
+				 link:{de:"fragestunde",fr:"heure-des-questions"}}];
 
 var typeWrapper = d3.select("#typeCheckbox");
 
 var typeButton = typeWrapper
         .selectAll(".form-check")
-        .data(vor_types)
+        .data(vorTypes)
         .enter()
         .append("div")
         .attr("class", "form-check form-switch");
@@ -387,7 +405,7 @@ var exPartyConnections = true;
 
 // //	filtered types
 // var typeFilterList = [];
-var typeFilterList = vor_types.map(a => a.de);
+var typeFilterList = vorTypes.map(a => a.de);
 // turn some on
 d3.select('#filtMotion').property('checked',true);
 typeFilterList.splice(typeFilterList.indexOf('Motion'), 1)
@@ -870,53 +888,56 @@ function genderLabel( {
   let dictContent = [
 	{'id':'textIntro',
 		'de':'<p class="pMarg" style="text-align: justify">Die <b>Visualisierung</b> auf dieser Seite zeigt die <b>Aktivitäten und Zusammenarbeit</b> von Mitgliedern des Nationalrats und des Ständerats im Rahmen von parlamentarischen <b>Vorstössen</b>. \
-		Diese werden als <b>Netzwerkansicht</b> dargestellt, mit den Abgeordneten als Knoten und den gemeinsam eingereichten Vorstössen als Verbindungen. \
-		Die verfügbaren Daten decken den Zeitraum ab der <b>48. Legislaturperiode</b> ab.</p> \
-		\
-		<p class="pMarg" style="text-align: justify">Die <b>Grösse der Knoten</b> entspricht der Anzahl der beteiligten Vorstösse. \
-		<b>Achtung: Eine Beteiligung an einem Vorstoss gibt keine Information über die Art und das Ausmass der Beteiligung (ob Initiierung, Ausarbeitung oder lediglich Mitunterschrift).</b> <br> \
-		Die <b>Farbe</b> der Knoten signalisiert eine von vier wählbaren persönlichen Eigenschaften (Partei, Geschlecht, Dienstjahre insgesamt und Dienstjahre in der ausgewählten Legislaturperiode). \
-		Abgeordnete ohne eingereichten Vorstoss werden im äussersten Ring dargestellt.</p> \
-		\
-		<p class="pMarg" style="text-align: justify">Die <b>Breite der Verbindung</b> zwischen zwei Abgeordneten zeigt an, wie viele Vorstösse gemeinsam eingereicht wurden. \
-		Um eine bessere Übersicht zu gewährleisten, kann frei gewählt werden ab wie vielen gemeinsamen Vorstössen eine Verbindung angezeigt werden soll (standardmässig ab 10). \
-		Aus performance Gründen wird die <b>Mindestanzahl der Zusammenarbeiten</b> automatisch erhöht, falls die Anzahl an Verbindungen zu gross wird</p> \
+		Diese werden als <b>Netzwerkansicht</b> dargestellt, mit den Ratsmitgliedern als Knoten und den gemeinsam eingereichten Vorstössen als Verbindungen. \
+		Die verfügbaren Daten decken den Zeitraum ab der <b>47. Legislaturperiode (Wintersession 2003)</b> ab.</p> \
 		\
 		<p class="pMarg" style="text-align: justify">Die für die Visualisierung <b>berücksichtigten Vorstösse</b> können nach <b>Art und Thema gefiltert</b> werden. \
 		Um einen <b>Einstieg in die Mehrdimensionalität</b> der dargestellten Informationen zu ermöglichen, \
-		sind weiter unten einige <a href="#stories">Beobachtungen</a> beschrieben, die durch Links auf der Visualisierung sichtbar gemacht werden können. </p> \
+		sind weiter unten einige <a href="#stories" id="storyExp">Beobachtungen</a> beschrieben, die durch Links auf der Visualisierung sichtbar gemacht werden können. </p> \
 		\
-		<p class="pMarg" style="text-align: justify">Die verschiedenen <a href="#explenationVor">Vorstossarten</a>, die zugrundeliegenden <a href="#data">Daten</a> \
-		und der zugrundeliegende <a href="#code">Code</a> werden unten im Detail erläutert.</p> \
+		<p class="pMarg" style="text-align: justify">Die zugrundeliegenden <a href="#data">Daten</a> \
+		sowie der <a href="#code">Code</a> werden unten im Detail erläutert.</p> \
 		\
 		<p class="pMarg text-center h5 mt-3"> \
 		  <b>Diese Visualisierung ist interaktiv: Ziehen Sie die Knoten, lesen Sie die Tooltips und filtern Sie nach Belieben. <br> \
 		  Viel Spass beim Spielen und Entdecken!</b> \
 		</p>',
-		'fr':'<p class="pMarg" style="text-align: justifier">La <b>visualisation</b> sur cette page montre les <b>activités et la coopération</b> des membres du Conseil national et de la Conseil des États dans le cadre des <b>interventions</b> parlementaires. \
-		Celles-ci sont présentées sous la forme d\'une <b>vue de réseau</b>, avec les députés comme nœuds et les propositions soumises conjointement comme connexions. \
-		Les données disponibles couvrent la période de <b>48. Législative</b> du.</p> \
+		'fr':'<p class="pMarg" style="text-align: justifier">La <b>visualisation</b> sur cette page montre les <b>activités et la collaboration</b> des membres du Conseil national et du Conseil des États dans le cadre des <b>interventions</b> parlementaires. \
+		Celles-ci sont représentées sous forme de <b>vue en réseau</b>, avec les membres du conseil comme nœuds et les interventions déposées conjointement comme liens. \
+		Les données disponibles couvrent la période à partir de la <b>47e législature (session d\'hiver 2003)</b>.</p> \
 		\
-		<p class="pMarg" style="text-align: justifier">La <b>taille du nœud</b> correspond au nombre d\'avancées concernées. \
-		<b>Attention : La participation à une initiative ne fournit aucune information sur le type et l\'étendue de la participation (qu\'il s\'agisse d\'une initiation, d\'une élaboration ou simplement d\'une signature conjointe).</b> <br> \
-		La <b>couleur</b> des nœuds signale l\'une des quatre caractéristiques personnelles sélectionnables (parti, sexe, nombre total d\'années de service et années de service dans la législature sélectionnée). \
-		Les députés qui n\'ont pas soumis de proposition sont affichés dans l\'anneau le plus à l\'extérieur.</p> \
+		<p class="pMarg" style="text-align: justifier">Les interventions <b>considérées</b> pour la visualisation peuvent être filtrées par <b>type et sujet</b>. \
+		Afin de permettre une entrée dans la multidimensionnalité</b> des informations représentées, \
+		certaines <a href="#stories">observations</a> sont décrites ci-dessous, qui peuvent être rendues visibles par des liens sur la visualisation. </p>\
 		\
-		<p class="pMarg" style="text-align: justifier">La <b>largeur de la connexion</b> entre deux députés indique combien de demandes ont été soumises ensemble. \
-		Afin d\'assurer une meilleure vue d\'ensemble, vous pouvez choisir librement le nombre d\'avances conjointes qu\'une connexion doit afficher (par défaut, à partir de 10). \
-		Pour des raisons de performances, le <b>nombre minimum de collaborations</b> est automatiquement augmenté si le nombre de connexions devient trop important</p> \
-		\
-		<p class="pMarg" style="text-align: justifier">Les avancées <b>considérées</b> pour la visualisation peuvent être filtrées par <b>type et sujet</b>. \
-		Pour permettre <b>l\'entrée dans la multidimensionnalité</b> des informations présentées, \
-		certaines <a href="#stories">observations</a> sont décrites ci-dessous, qui peuvent être rendues visibles grâce à des liens sur la visualisation. </p>\
-		\
-		<p class="pMarg" style="text-align: justifier">Les différents <a href="#explenationVor">types d\'avance</a>, les <a href="#data">données</ un> \
+		<p class="pMarg" style="text-align: justifier">Les <a href="#data">données</a> \
 		et le <a href="#code">code</a> sous-jacent sont détaillés ci-dessous.</p> \
 		\
 		<p class="pMarg text-center h5 mt-3"> \
-		<b>Cette visualisation est interactive : faites glisser les nœuds, lisez les info-bulles et filtrez comme vous le souhaitez. <br> \
-		Amusez-vous à jouer et à découvrir !</b> \
+		<b>Cette visualisation est interactive : faites glisser les nœuds, lisez les info-bulles et filtrez à votre guise. <br> \
+		Amusez-vous à jouer et à découvrir !</b> \
 		</p>'
+	},
+		{
+		'id':'textVizExpl',
+		'de':'<p class="pMarg" style="text-align: justify">Die <b>Grösse der Knoten</b> entspricht der Anzahl der beteiligten Vorstösse. \
+		<b>Achtung: Eine Beteiligung an einem Vorstoss gibt keine Information über die Art und das Ausmass der Beteiligung (ob Initiierung, Ausarbeitung oder lediglich Mitunterschrift).</b></p> \
+		\
+		<p class="pMarg" style="text-align: justify">Die <b>Farbe</b> der Knoten signalisiert eine von vier wählbaren persönlichen Eigenschaften (Partei, Geschlecht, Dienstjahre insgesamt und Dienstjahre in der ausgewählten Legislaturperiode). \
+		Ratsmitglieder ohne eingereichten Vorstoss werden im äussersten Ring dargestellt.</p> \
+		\
+		<p class="pMarg" style="text-align: justify">Die <b>Breite der Verbindung</b> zwischen zwei Ratsmitgliedern zeigt an, wie viele Vorstösse gemeinsam eingereicht wurden. \
+		Um eine bessere Übersicht zu gewährleisten, kann frei gewählt werden, ab wie vielen gemeinsamen Vorstössen eine Verbindung angezeigt werden soll (standardmässig ab 10). \
+		Aus Gründen der Performance wird die <b>Mindestanzahl der Kooperationen</b> automatisch erhöht, falls die Zahl der Verbindungen zu gross wird</p>',
+		'fr':'<p class="pMarg" style="text-align: justifier">La <b>taille des nœuds</b> correspond au nombre d\'interventions parlementaires impliquées. \
+		<b>Attention : La participation à une initiative ne fournit aucune information sur le type et le niveau de participation (initiation, élaboration ou simple co-signature).</b></p> \
+		\
+		<p class="pMarg" style="text-align: justify">La <b>couleur</b> des nœuds signale l\'une des quatre caractéristiques personnelles sélectionnables (parti, sexe, nombre total d\'années de service et années de service au cours de la législature sélectionnée). \
+		Les membres du conseil qui n\'ont pas soumis d\'intervention sont représentés dans l\'anneau le plus à l\'extérieur.</p> \
+		\
+		<p class="pMarg" style="text-align: justify">La <b>largeur du lien</b> entre deux membres du conseil indique combien d\'interventions ont été déposées ensemble. \
+		Afin de permettre une meilleure vue d\'ensemble, vous pouvez choisir librement à partir de combien d\'interventions communes une liaison doit être affichée (par défaut à partir de 10). \
+		Pour des raisons de performance, le <b>nombre minimum de collaborations</b> est automatiquement augmenté si le nombre de connexions devient trop important</p>'
 	},
 	{
 		'id':'textStoryNat',
@@ -950,10 +971,10 @@ function genderLabel( {
 		  so ist es in der 50. Legislatur vor allem ein Thema von SP, Grünen und glp geworden.\
 		</p>\
 		<p style="text-align: justify">\
-		  Die Abgeordneten der SP sind an den meisten Vorstössen beteiligt, sowohl bezüglich Vorstössen die die \
+		  Die Ratsmitglieder der SP sind an den meisten Vorstössen beteiligt, sowohl bezüglich Vorstössen die die \
 		  <a href="javascript:void(0)" id="storyNat12">Gesetzgebung</a> betreffen, als auch bei <a href="javascript:void(0)" id="storyNat13">Anfragen</a>.\
 		  Ein Teilgrund dafür ist auch die starke parteiinterne Zusammenarbeit und die enge Zusammenarbeit mit den Grünen. <br>\
-		  Die Abgeordnete Martina Munz (SP) war dabei die aktivste Abgeordnete des Nationalrats in der 50. Legislaturperiode und an insgesamt 1003 Vorstössen beteiligt \
+		  Die Nationalrätin Martina Munz (SP) war dabei das aktivste Ratsmitglied des Nationalrats in der 50. Legislaturperiode und an insgesamt 1003 Vorstössen beteiligt \
 		  (524 Vorstösse betreffend der Gesetzgebung und 479 Anfragen). Die Zweit- und Drittplazierten sind ebenfalls <a href="javascript:void(0)" id="storyNat14">Frauen aus der SP</a>: \
 		  Claudia Friedl mit 936 Vorstössen und Bea Heim mit 840 Vorstössen.<br>\
 		  Die grössten <a href="javascript:void(0)" id="storyNat15">Brückenbauer</a> zwischen dem linken und dem rechten Lager waren Karl Vogler von der csp-ow und Thomas Weibel von der glp.\
@@ -1012,11 +1033,11 @@ function genderLabel( {
 		  Ein weiterer Unterschied zwischen National- und Ständerat ist, die <a href="javascript:void(0)" id="storySta4">parteiübergreifende Zusammenarbeit</a> \
 		  die im Ständerat tendenziell grösser ist als im Nationalrat. \
 		  Dennoch gibt es eine sichtbare <a href="javascript:void(0)" id="storySta5">Aufteilung der Netzwerke</a> nach politischen Lagern. \
-		  Im Gegensatz zum Nationalrat dominieren allerdings Hier die Mitte-Parteien, sowohl im Hinblick auf Anzahl der Abgeordneten, als auch Zusammenarbeit.\
-		  Im Ständerat stellen die CVP und die FDP die Abgeordneten die in der 50. Legislaturperiode and den meissten Vorstössen beteiligt waren.\
+		  Im Gegensatz zum Nationalrat dominieren allerdings Hier die Mitte-Parteien, sowohl im Hinblick auf Anzahl der Ratsmitglieder, als auch Zusammenarbeit.\
+		  Im Ständerat stellen die CVP und die FDP die Ratsmitglieder die in der 50. Legislaturperiode and den meissten Vorstössen beteiligt waren.\
 		</p>\
 		<p style="text-align: justify">\
-		  Der in der <a href="javascript:void(0)" id="storySta6">50. Legislaturperiode</a> an den meisten Vorstössen beteiligte Abgeordnete war Damian Müller (FDP, Luzern) mit 152 Vorstössen. \
+		  Der in der <a href="javascript:void(0)" id="storySta6">50. Legislaturperiode</a> an den meisten Vorstössen beteiligte Ständerat war Damian Müller (FDP, Luzern) mit 152 Vorstössen. \
 		  Die meisten Vorstösse bezüglich Gesetzgebung hatte Erich Ettlin (CVP, Obwalden, 115 Vorstösse) und bezüglich Anfragen Anne Seydoux-Christe (CVP, Jura, 61 Vorstösse) zu verzeichnen.\
 		  Anne Seydoux-Christe war auch die grösste Brückenbauerin zwischen den politischen Lagern.\
 		</p>',
@@ -1042,50 +1063,50 @@ function genderLabel( {
 		Anne Seydoux-Christe a également été la plus grande bâtisseuse de ponts entre les camps politiques.\
 		</p>'
 	},
-	{
-		'id':'textVorInit',
-		'de':'Mit einer <b>Parlamentarische Initiative</b> kann ein Ratsmitglied, \
-		den Entwurf zu einem Erlass oder die Grundzüge eines solchen Erlasses vorschlagen. \
-		Die Leitung der Gesetzgebungsarbeiten erfolgt durch eine Kommission des National- oder Ständerates.',
-		'fr':'Par la voie de <b>l\'initiative parlementaire</b>, un député peut déposer un projet d\'acte ou les grandes lignes d\'un tel acte. \
-		Les travaux législatifs sont menés par une commission du Conseil national ou du Conseil des Etats.'
-	},
-	{
-		'id':'textVorMot',
-		'de':'Mit einer <b>Motion</b> wird der Bundesrat beauftragt, einen Entwurf zu einem Erlass der Bundesversammlung vorzulegen oder eine Massnahme zu treffen.',
-		'fr':'La <b>motion</b> est une intervention qui charge le Conseil fédéral de déposer un projet d\'acte de l\'Assemblée fédérale ou de prendre une mesure.'
-	},
-	{
-		'id':'textVorPost',
-		'de':'Ein <b>Postulat</b> beauftragt den Bundesrat zu prüfen und zu berichten, ob ein Entwurf zu einem Erlass der Bundesversammlung vorgelegt oder eine Massnahme getroffen werden muss.',
-		'fr':'Le <b>postulat</b> charge le Conseil fédéral d\'examiner l\'opportunité, soit de déposer un projet d\'acte de l\'Assemblée fédérale, soit de prendre une mesure et de présenter un rapport à ce sujet.'
-	},
-	{
-		'id':'textVorInter',
-		'de':'Mit einer <b>Interpellation</b> verlangt ein Ratsmitglied vom Bundesrat Auskunft über wichtige innen- und aussenpolitische Ereignisse und Angelegenheiten des Bundes. \
-		Die Urheber:innen können beim Einreichen der Interpellation beantragen, dass diese dringlich erklärt wird. Nach Beantwortung durch den Bundesrat können die Urheber:innen eine Diskussion darüber verlangen.',
-		'fr':'En déposant une <b>interpellation</b>, un député demande au Conseil fédéral de leur fournir des informations sur des événements ou des problèmes concernant soit la politique intérieure ou extérieure, soit l\'administration. \
-		Lors du dépôt de l\'interpellation, les auteurs peuvent demander qu\'elle soit déclarée urgente. Après réponse du Conseil fédéral, les auteurs peuvent demander une discussion à ce sujet.'
-	},
-	{
-		'id':'textVorQuest',
-		'de':'Eine <b>Anfrage</b> verlangt ein Ratsmitglied vom Bundesrat Auskunft über wichtige innen- und aussenpolitische Ereignisse und Angelegenheiten des Bundes. \
-		Die Urheber:innen können beim Einreichen der Interpellation beantragen, dass diese dringlich erklärt wird. \
-		Anders als bei der Interpellation gibt es nach Beantwortung durch den Bundesrat keine Möglichkeit zur Diskussion.',
-		'fr':'La <b>question</b> permet à un ou une parlementaire d\'exiger du Conseil fédéral qu\'il fournisse des renseignements sur une affaire de politique intérieure ou extérieure importante.. \
-		Lors du dépôt de l\'interpellation, les auteurs peuvent demander qu\'elle soit déclarée urgente. \
-		Contrairement à l\'interpellation, il n\'y a pas de possibilité de discussion une fois que le Bundesrat a répondu.'
-	},
-	{
-		'id':'textVorQuestQuest',
-		'de':'Die Montagssitzungen des Nationalrates der zweiten und dritten Sessionswoche beginnen mit der <b>Fragestunde</b>. \
-		Dabei behandelt der Rat aktuelle Fragen, die Ratsmitglieder bis Mittwochmittag der Vorwoche eingereicht haben.',
-		'fr':'Au Conseil national, les deuxième et troisième semaines de session débutent par une <b>heure des questions</b>, \
-		consacrée aux problèmes d\'actualité. Les questions doivent impérativement avoir été déposées le mercredi précédant l\'heure des questions.'
-	},
+	// {
+	// 	'id':'textVorInit',
+	// 	'de':'Mit einer <b>Parlamentarische Initiative</b> kann ein Ratsmitglied, \
+	// 	den Entwurf zu einem Erlass oder die Grundzüge eines solchen Erlasses vorschlagen. \
+	// 	Die Leitung der Gesetzgebungsarbeiten erfolgt durch eine Kommission des National- oder Ständerates.',
+	// 	'fr':'Par la voie de <b>l\'initiative parlementaire</b>, un député peut déposer un projet d\'acte ou les grandes lignes d\'un tel acte. \
+	// 	Les travaux législatifs sont menés par une commission du Conseil national ou du Conseil des Etats.'
+	// },
+	// {
+	// 	'id':'textVorMot',
+	// 	'de':'Mit einer <b>Motion</b> wird der Bundesrat beauftragt, einen Entwurf zu einem Erlass der Bundesversammlung vorzulegen oder eine Massnahme zu treffen.',
+	// 	'fr':'La <b>motion</b> est une intervention qui charge le Conseil fédéral de déposer un projet d\'acte de l\'Assemblée fédérale ou de prendre une mesure.'
+	// },
+	// {
+	// 	'id':'textVorPost',
+	// 	'de':'Ein <b>Postulat</b> beauftragt den Bundesrat zu prüfen und zu berichten, ob ein Entwurf zu einem Erlass der Bundesversammlung vorgelegt oder eine Massnahme getroffen werden muss.',
+	// 	'fr':'Le <b>postulat</b> charge le Conseil fédéral d\'examiner l\'opportunité, soit de déposer un projet d\'acte de l\'Assemblée fédérale, soit de prendre une mesure et de présenter un rapport à ce sujet.'
+	// },
+	// {
+	// 	'id':'textVorInter',
+	// 	'de':'Mit einer <b>Interpellation</b> verlangt ein Ratsmitglied vom Bundesrat Auskunft über wichtige innen- und aussenpolitische Ereignisse und Angelegenheiten des Bundes. \
+	// 	Die Urheber:innen können beim Einreichen der Interpellation beantragen, dass diese dringlich erklärt wird. Nach Beantwortung durch den Bundesrat können die Urheber:innen eine Diskussion darüber verlangen.',
+	// 	'fr':'En déposant une <b>interpellation</b>, un député demande au Conseil fédéral de leur fournir des informations sur des événements ou des problèmes concernant soit la politique intérieure ou extérieure, soit l\'administration. \
+	// 	Lors du dépôt de l\'interpellation, les auteurs peuvent demander qu\'elle soit déclarée urgente. Après réponse du Conseil fédéral, les auteurs peuvent demander une discussion à ce sujet.'
+	// },
+	// {
+	// 	'id':'textVorQuest',
+	// 	'de':'Eine <b>Anfrage</b> verlangt ein Ratsmitglied vom Bundesrat Auskunft über wichtige innen- und aussenpolitische Ereignisse und Angelegenheiten des Bundes. \
+	// 	Die Urheber:innen können beim Einreichen der Interpellation beantragen, dass diese dringlich erklärt wird. \
+	// 	Anders als bei der Interpellation gibt es nach Beantwortung durch den Bundesrat keine Möglichkeit zur Diskussion.',
+	// 	'fr':'La <b>question</b> permet à un ou une parlementaire d\'exiger du Conseil fédéral qu\'il fournisse des renseignements sur une affaire de politique intérieure ou extérieure importante.. \
+	// 	Lors du dépôt de l\'interpellation, les auteurs peuvent demander qu\'elle soit déclarée urgente. \
+	// 	Contrairement à l\'interpellation, il n\'y a pas de possibilité de discussion une fois que le Bundesrat a répondu.'
+	// },
+	// {
+	// 	'id':'textVorQuestQuest',
+	// 	'de':'Die Montagssitzungen des Nationalrates der zweiten und dritten Sessionswoche beginnen mit der <b>Fragestunde</b>. \
+	// 	Dabei behandelt der Rat aktuelle Fragen, die Ratsmitglieder bis Mittwochmittag der Vorwoche eingereicht haben.',
+	// 	'fr':'Au Conseil national, les deuxième et troisième semaines de session débutent par une <b>heure des questions</b>, \
+	// 	consacrée aux problèmes d\'actualité. Les questions doivent impérativement avoir été déposées le mercredi précédant l\'heure des questions.'
+	// },
 	{
 		'id':'textDataSource',
-		'de':'Die <b>Daten</b> zu den Abgeordneten\
+		'de':'Die <b>Daten</b> zu den Ratsmitgliedern\
 		und den Vorstössen wurden von der <b>API der Parlamentsdienste</b> bezogen: <a href="https://ws.parlament.ch/odata.svc" target="_blank" rel="noopener noreferrer">ws.parlament.ch/odata.svc</a>. <br>\
 		Die dort verfügbaren Daten können in für Menschen lesbarer Form gesichtet und abgefragt werden in dem z.B. die Metadaten-URL \
 		(<a href="https://ws.parlament.ch/odata.svc" target="_blank" rel="noopener noreferrer">https://ws.parlament.ch/odata.svc/$metadata</a>) \
@@ -1166,11 +1187,11 @@ function genderLabel( {
   ]
 
 dictHeadings = [
-	{'id':'headTitle','de':'Zusammenarbeit der Abgeordneten <br> im National- & Ständerat',
+	{'id':'headTitle','de':'Zusammenarbeit der Mitglieder <br> des National- & Ständerats',
 	'fr':'Coopération entre les membres du <br> Conseil national et du Conseil des États'},
 	{'id':'headIntro','de':'Einleitung','fr':'Introduction'},
-	{'id':'headViz','de':'Netzwerkvisualisierung','fr':'Visualisation du Réseau'},
-	{'id':'headBus','de':'Erläuterung Vorstösse','fr':'Explication des Interventios'},
-	{'id':'headDat','de':'Erläuterung Daten','fr':'Explication des Données'},
-	{'id':'headCode','de':'Erläuterung Code','fr':'Explication du Code'},
+	{'id':'headViz','de':'Netzwerkvisualisierung','fr':'Visualisation du réseau'},
+	{'id':'headBus','de':'Erläuterung Vorstösse','fr':'Explication des interventios'},
+	{'id':'headDat','de':'Erläuterung Daten','fr':'Explication des données'},
+	{'id':'headCode','de':'Erläuterung Code','fr':'Explication du code'},
 ]

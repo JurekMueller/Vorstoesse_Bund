@@ -78,6 +78,11 @@
           background: rgba(0,0,0,0.5);
           visibility: hidden;
       }
+      button.accordion-button::after {
+        position: absolute;
+        z-index: 100;
+        right: 16px;
+      }
     </style>
 </head>
 <body>
@@ -178,38 +183,78 @@
         </div>
     </section>
 
+     <!-- Explanation Visualization -->
+  <section id="expl" class="mb-5">
+    <div class="container-lg">
+    <div class="row justify-content-center"> 
+        <div class="col-11">
+            <div class="accordion shadow" id="accordionpanelsStayOpen2Example">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen2-headingTwo">
+                    <button id="vizExplT" class="accordion-button collapsed d-block text-center fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#panel1" aria-expanded="false" aria-controls="panel1">
+                      
+                    </button>
+                  </h2>
+                  <div id="panel1" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                    <div class="accordion-body" id="textVizExpl">
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+    </div>
+</div>
+</section>
+
     <!-- Stories -->
     <section class="mb-5" id="stories">
-        <div class="container-lg">
+        <div class="container-lg" style="margin-top: -20px;">
             <div class="row justify-content-center"> 
                 <div class="col-11">
-                    <div class="card my_rounded shadow">
-                        <ul class="nav nav-tabs nav-fill card-body-tabs nav-tabs-border-width-2" data-bs-tabs="tabs">
-                            <li class="nav-item">
-                                <a class="nav-link active text-reset fw-bold" aria-current="true" data-bs-toggle="tab" href="#storyNat" id="storyLabelNat"></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-reset fw-bold" data-bs-toggle="tab" href="#storySta" id="storyLabelSta"></a>
-                            </li>
-                        </ul>
-                        <form class="card-body tab-content">
-                            <div class="tab-pane active" id="storyNat">
-                                <p class="card-text" id="textStoryNat"> 
-                                  
-                                </p>
-                            </div>
-                            <div class="tab-pane" id="storySta">
-                              <p class="card-text" id="textStorySta">
-                                
-                              </p>
-                            </div>
-                        </form>
-                   </div>
+                    
+                  <div class="accordion shadow" id="accordionpanelsStayOpen2Example">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="panelsStayOpen2-headingTwo">
+                        <button id="storyT" class="accordion-button collapsed d-block text-center fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#panelStory" aria-expanded="false" aria-controls="panelStory">
+                          
+                        </button>
+                      </h2>
+                      <div id="panelStory" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body" id="textVizExpl">
+                          <div class="card my_rounded shadow">
+                            <ul class="nav nav-tabs nav-fill card-body-tabs nav-tabs-border-width-2" data-bs-tabs="tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active text-reset fw-bold" aria-current="true" data-bs-toggle="tab" href="#storyNat" id="storyLabelNat"></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-reset fw-bold" data-bs-toggle="tab" href="#storySta" id="storyLabelSta"></a>
+                                </li>
+                            </ul>
+                            <form class="card-body tab-content">
+                                <div class="tab-pane active" id="storyNat">
+                                    <p class="card-text" id="textStoryNat"> 
+                                      
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="storySta">
+                                  <p class="card-text" id="textStorySta">
+                                    
+                                  </p>
+                                </div>
+                            </form>
+                       </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
                 </div>
         </div>
     </section>
 
-    <!-- Erläusterung Vorstösse -->
+
+    <!-- Erläusterung Vorstösse
     <section class="mb-5" id="explenationVor">
       <div class="container-lg">
           <div class="row justify-content-center mb-3"> 
@@ -296,7 +341,7 @@
                 </div>
           </div>
       </div>
-  </section>
+  </section> -->
 
   <!-- Daten -->
   <section id="data" class="mb-5">
@@ -311,7 +356,7 @@
             <div class="accordion shadow" id="accordionpanelsStayOpen2Example">
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="panelsStayOpen2-headingTwo">
-                    <button id="datQT" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen2-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen2-collapseTwo">
+                    <button id="datQT" class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen2-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen2-collapseTwo">
                       
                     </button>
                   </h2>
@@ -323,7 +368,7 @@
                 </div>
                 <div class="accordion-item shadow">
                     <h2 class="accordion-header" id="panelsStayOpen2-headingFour">
-                      <button id="datAT" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen2-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen2-collapseFour">
+                      <button id="datAT" class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen2-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen2-collapseFour">
                         
                       </button>
                     </h2>
