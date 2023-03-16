@@ -29,19 +29,20 @@ jobs:
           cd python
           python request_data_full.py
           cd ..
+      
+      - name: update-date
+        run: sed -i "s/let dateWeb = '.*'/let dateWeb = '$(date +'%d.%m.%Y')'/g" JS/netzwerk.js
 
       - name: commit-files
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
-          git diff-index --quiet HEAD || (git commit -a -m "updated logs" --allow-empty)
+          git diff-index --quiet HEAD || (git commit -a -m "updated data" --allow-empty)
 
       - name: push-changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main 
+          branch: master
           
-      - name: update-date
-        run: sed -i "s/let dateWeb = '.*'/let dateWeb = '$(date +'%d.%m.%Y')'/g" JS/netzwerk.js
