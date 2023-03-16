@@ -88,7 +88,7 @@ with open(f"../Data/topics.json", "w") as file:
 
 # loop over councils (1: Nationalrat, 2: Ständerat)
 for council in [1,2]:
-    print('Working on council:',council)
+    print('Working on council:',council,flush=True)
     # #### Liste der Abgeordneten (History)
 
 
@@ -268,10 +268,10 @@ for council in [1,2]:
     for request_leg in legislaturen.ID:
         # ### Reduce to selected Leg
         if path.isfile(f"../Data/netzwerk_{request_leg}_{council}.json") and request_leg!=legislaturen.ID.iloc[-1]: #update the last leg
-            print(f"File for leg {request_leg} already exists")
+            print(f"File for leg {request_leg} already exists",flush=True)
             continue
         else:
-            print("Working on Legislature:",request_leg)
+            print("Working on Legislature:",request_leg,flush=True)
         abgeordnete_sel_leg = abgeordnete_sel[abgeordnete_sel['Legislaturen'].apply(lambda x: request_leg in x)]
         abgeordnete_sel_leg['DienstjahreTot'] = abgeordnete_sel_leg['DienstjahreTot'].apply(lambda x: x[str(request_leg)])
         abgeordnete_sel_leg['DienstjahreLeg'] = abgeordnete_sel_leg['DienstjahreLeg'].apply(lambda x: x[str(request_leg)])
@@ -285,11 +285,11 @@ for council in [1,2]:
 
 
         # Test if there are doubles in the IDs
-        print('Test1:')
+        print('Test1:',flush=True)
         if len(abgeordnete_sel['PersonNumber'].unique()) != len(abgeordnete_sel['PersonNumber']):
-            print('Error')
+            print('Error',flush=True)
         else:
-            print('OK')
+            print('OK',flush=True)
 
 
         # Test if there are still Legislaturen counted double
@@ -318,7 +318,7 @@ for council in [1,2]:
 
         list_halves=[]
         for halve in [1,2]:
-            print('Working on halve',halve)
+            print('Working on halve',halve,flush=True)
             if halve == 1:
                 start_date = legislaturen.loc[request_leg]['StartDate']
                 end_date = legislaturen.loc[request_leg]['StartDate'] + relativedelta(years=2)
@@ -343,14 +343,14 @@ for council in [1,2]:
                 except:
                     time.sleep(2)
                     retries += 1
-                    print(f'Request failed at skipt {skip}. Retries: {retries}')
+                    print(f'Request failed at skipt {skip}. Retries: {retries}',flush=True)
                     if retries == 5: 
                         interval -= 100
                         if interval == 0:
                             raise RuntimeError('Request failed too many times')
                         else:
                             retries = 0
-                            print(f'try with new interval: {interval}')
+                            print(f'try with new interval: {interval}',flush=True)
                             continue
                         
                     else: continue # try the same request again (max 10 times)
@@ -402,17 +402,17 @@ for council in [1,2]:
 
         
         # Check if there are Roles that are not assigned to a Person or Roles that we do not expect
-        print('Test2:')
+        print('Test2:',flush=True)
 
         for b, bus in business_sel.iterrows():
-            if not bus['BusinessRoles']['PersonNumber'].all(): print(b)
+            if not bus['BusinessRoles']['PersonNumber'].all(): print(b,flush=True)
 
         for b, bus in business_sel.iterrows():
-            if not bus['BusinessRoles']['PersonNumber'].all(): print(b)
+            if not bus['BusinessRoles']['PersonNumber'].all(): print(b,flush=True)
 
 
         for b, bus in business_sel.iterrows():
-            if bus['Type']=='Dringliche Anfrage': print(b)
+            if bus['Type']=='Dringliche Anfrage': print(b,flush=True)
 
 
         # Check if there are some businesses without tags
@@ -420,11 +420,11 @@ for council in [1,2]:
 
 
         for b, bus in business_sel.iterrows():
-            if 'Bekämpfer(-in)' in bus['BusinessRoles']['RoleName'].values: print(b)
+            if 'Bekämpfer(-in)' in bus['BusinessRoles']['RoleName'].values: print(b,flush=True)
 
 
         for b, bus in business_sel.iterrows():
-            if len(bus['BusinessRoles'])==0: print(b)
+            if len(bus['BusinessRoles'])==0: print(b,flush=True)
 
 
         
