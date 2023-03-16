@@ -25,7 +25,10 @@ jobs:
           pip install -r python/requirements.txt
 
       - name: execute-py-script # run main.py
-        run: python python/request_data_full.py
+        run: |
+          cd python
+          python request_data_full.py
+          cd ..
 
       - name: commit-files
         run: |
