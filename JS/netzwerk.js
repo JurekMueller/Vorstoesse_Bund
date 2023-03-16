@@ -1,5 +1,10 @@
 // Code adapted from https://gist.github.com/colbenkharrl/dcb5590173931bb594e195020aaa959d
 
+//// Last changed
+
+let dateWeb = '19.01.2023'
+let dateData = '19.01.2023'
+
 ///////////// INITIAL SETUP ////////////////
 
 //	svg selection and sizing
@@ -1163,7 +1168,7 @@ function genderLabel( {
 	},
 	{
 		'id':'textImpress',
-		'de':'<p class="h5">Die interaktive Visualisierung, die auf dieser Seite vorgestellt wird, ist ein Projekt des \
+		'de':`<p class="h5">Die interaktive Visualisierung, die auf dieser Seite vorgestellt wird, ist ein Projekt des \
 		<a href="https://www.bfh.ch/en/research/research-areas/public-sector-transformation/" target="_blank" rel="noopener noreferrer">Institute Public Sector Transformation</a> der Berner Fachhochschule.\
 		</p>\
 		<p class="h5"><b>Autor: Jurek Müller</b>\
@@ -1172,8 +1177,8 @@ function genderLabel( {
 		  <a class="ps-1" href="https://github.com/JurekMueller/" target="_blank" rel="noopener noreferrer"><img src="./Images/github.svg" style="width: 2%; height: auto;"></a>\
 		</p>\
 		<p class="h5"><b>Lizenz: </b><a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" rel="noopener noreferrer">Mozilla Public License 2.0</a></p>\
-		<p class="h5">Zuletzt aktualisiert: 19.01.2023</p>',
-		'fr':'<p class="h5">La visualisation interactive présentée sur cette page est un projet de \
+		<p class="h5">Daten zuletzt aktualisiert: ${dateData}, Webseite zuletzt aktualisiert: ${dateWeb}</p>`,
+		'fr':`<p class="h5">La visualisation interactive présentée sur cette page est un projet de \
 		<a href="https://www.bfh.ch/fr/recherche/domaines-de-recherche/transformation-du-secteur-public/" target="_blank" rel="noopener noreferrer">Institute Public Sector Transformation</a> de la Haute école spécialisée bernoise.\
 		</p>\
 		<p class="h5"><b>Auteur : Jurek Müller</b>\
@@ -1182,7 +1187,7 @@ function genderLabel( {
 		<a class="ps-1" href="https://github.com/JurekMueller/" target="_blank" rel="noopener noreferrer"><img src="./Images/github.svg" style= "largeur : 2 % ; hauteur : automatique ;"></a>\
 		</p>\
 		<p class="h5"><b>Licence : </b><a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" rel="noopener noreferrer">Mozilla Public License 2.0</a></p>\
-		<p class="h5">Dernière mise à jour : 19.01.2023</p>'
+		<p class="h5">Dernière mise à jour des données : ${dateData}, dernière mise à jour de la page Web : ${dateWeb}</p>`
 	},
   ]
 
