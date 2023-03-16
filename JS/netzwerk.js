@@ -304,7 +304,7 @@ parlamentarische-initiativen-standesinitiativen-vorstoesse/",
 objets-soumis-deliberation-et-procedure-parlementaire/\
 initiative-parlementaires-initiatives-deposees-par-des-cantons-et-interventions/"}
 
-let vorTypes = [{id:"filtParlIni",de:"Parlamentarische Initiative", fr:'Initiatives parlementaire',
+let vorTypes = [{id:"filtParlIni",de:"Parlamentarische Initiative", fr:'Intervention parlementaire',
 				 link:{de:"parlamentarische-initiative",fr:"initiative-parlementaire"}},
 				 {id:"filtMotion",de:"Motion", fr:'Motion',
 				 link:{de:"motion",fr:"motion"}},				 
@@ -908,7 +908,7 @@ function genderLabel( {
 		  Viel Spass beim Spielen und Entdecken!</b> \
 		</p>',
 		'fr':'<p class="pMarg" style="text-align: justifier">La <b>visualisation</b> sur cette page montre les <b>activités et la collaboration</b> des membres du Conseil national et du Conseil des États dans le cadre des <b>interventions</b> parlementaires. \
-		Celles-ci sont représentées sous forme de <b>vue en réseau</b>, avec les membres du conseil comme nœuds et les interventions déposées conjointement comme liens. \
+		Celles-ci sont représentées sous forme de <b>visualisation en réseau</b>, où les membres du conseil comme nœuds et les interventions déposées conjointement comme liens. \
 		Les données disponibles couvrent la période à partir de la <b>47e législature (session d\'hiver 2003)</b>.</p> \
 		\
 		<p class="pMarg" style="text-align: justifier">Les interventions <b>considérées</b> pour la visualisation peuvent être filtrées par <b>type et sujet</b>. \
@@ -989,35 +989,35 @@ function genderLabel( {
 		La <a href="javascript:void(0)" id="storyNat1">coopération au sein du Conseil national</a> se fait en grande partie au sein des partis.\
 		L\'articulation interpartisale des réseaux internes du parti montre une nette division le long de l\'axe politique gauche-droite. \
 		À gauche politique, les Verts et le PS forment un groupe commun et à droite politique, l\'UDC.\
-		Le pont entre les deux clusters est formé par les middle parties (PDC, PLR, PVL, PEV et PBD), \
-		selon lequel l\'PEV et le PVL sont regroupés plus étroitement dans le groupe Verts/PS et le PLR plus étroitement dans le groupe UDC. <br>\
+		Le pont entre les deux clusters est formé par les partis du centre (PDC, PRD, pvl, PEV et PBD),\
+		le PEV et le pvl se regroupant plutôt à proximité du cluster Verts/PS et le PRD plutôt à proximité du cluster UDC. <br>\
 		La partie avec la plus grande <a href="javascript:void(0)" id="storyNat2">coopération interne</a> est le PS \
-		et le <a href="javascript:void(0)" id="storyNat3">réseau bipartite</a> le plus fort existe entre le PS et les Verts.\
+		et le <a href="javascript:void(0)" id="storyNat3">réseau interpartis</a> le plus fort existe entre le PS et les Verts.\
 		</p>\
 		<p style="text-align : justifier">\
 		La coopération entre les partis dépend également du sujet. Un sujet avec une quantité relativement importante de collaboration entre les camps est \
 		<a href="javascript:void(0)" id="storyNat4">médias et communication</a>\
-		(voir par exemple Balthasar Glättli (Parti Vert) et Franz Grüter (UDC)). Un sujet où il n\'y a pratiquement aucune coopération entre les camps est \
-		<a href="javascript:void(0)" id="storyNat5">politique migratoire</a>.\
-		La proximité politique des partis du centre avec le camp de gauche ou de droite peut également différer selon les sujets. \
+		(voir par exemple Balthasar Glättli (Parti Vert) et Franz Grüter (UDC)). Par contre\
+		la <a href="javascript:void(0)" id="storyNat5">politique migratoire</a> est un sujet où la collaboration entre les différents partis est quasi inexistante.\
+		La proximité politique des partis du centre avec le camp de gauche ou de droite peut également varier selon les sujets. \
 		Dans le sujet <a href="javascript:void(0)" id="storyNat6">économie</a>, par exemple, les partis du centre PBD et PDC travaillent plus étroitement avec l\'UDC \
 		et dans le sujet <a href="javascript:void(0)" id="storyNat7">questions sociales</a> plus étroitement avec les partis de gauche.\
 		</p>\
 		<p style="text-align : justifier">\
-		L\'intérêt politique pour certaines questions peut également changer avec le temps. \
-		L\'<a href="javascript:void(0)" id="storyNat8">agriculture dans la 48e législature</a> était-elle encore un sujet traité principalement par l\'UDC et seulement partiellement par les Verts, \
-		formulaires au plus tard à partir de <a href="javascript:void(0)" id="storyNat9">50. Législature</a> un réseau de gauche des Verts, PS et PVL. <br>\
+		L\'intérêt politique pour certaines questions peut également évoluer avec le temps. \
+		Lors de la <a href="javascript:void(0)" id="storyNat8">48e législature, l\'agriculture</a> était encore un sujet traité principalement par l\'UDC et seulement partiellement par les Verts.\
+		Mais à partir de la <a href="javascript:void(0)" id="storyNat9">50. Législature</a> au plus tard, un réseau de gauche composé des Verts, du PS et du PVL se forme. <br>\
 		Le sujet <a href="javascript:void(0)" id="storyNat10">environnement a dans la 50e législature</a> en comparaison \
 		aux <a href="javascript:void(0)" id="storyNat11">législatures avant cela</a> ont gagné en importance.\
 		Une des raisons à cela pourrait être le mouvement climatique, qui a pris de l\'ampleur depuis 2018.\
-		Pourtant, si le sujet a été traité par tous les camps politiques dans les législatures précédentes,\
-		ainsi, dans la 50e législature, il est devenu principalement un sujet de PS, les Verts et PVL.\
+		Alors que ce sujet était encore traité par tous les camps politiques au cours des législatures précédentes,\
+		il est devenu un sujet principalement traité par le PS, les Verts et le pvl au cours de la 50e législature.\
 		</p>\
 		<p style="text-align : justifier">\
-		Les députés du PS sont impliqués dans la plupart des initiatives, tant en ce qui concerne les initiatives que le \
+		Les députés du PS sont impliqués dans la plupart des intervention, tant en ce qui concerne les intervention que le \
 		<a href="javascript:void(0)" id="storyNat12">législation</a>, ainsi que <a href="javascript:void(0)" id="storyNat13">enquêtes</a> >.\
 		Cela s\'explique en partie par la forte coopération au sein du parti et l\'étroite collaboration avec les Verts. <br>\
-		La députée Martina Munz (PS) a été la membre la plus active du Conseil national au cours de la 50e législature et a participé à un total de 1003 initiatives \
+		La députée Martina Munz (PS) a été la membre la plus active du Conseil national au cours de la 50e législature et a participé à un total de 1003 intervention \
 		(524 demandes de législation et 479 enquêtes). Les deuxième et troisième places sont également des <a href="javascript:void(0)" id="storyNat14">femmes de PS</a> : \
 		Claudia Friedl avec 936 avances et Bea Heim avec 840 avances.<br>\
 		Les plus grands <a href="javascript:void(0)" id="storyNat15">bâtisseurs de ponts</a> entre les camps de gauche et de droite étaient Karl Vogler de csp-ow et Thomas Weibel de PVL.\
@@ -1051,7 +1051,7 @@ function genderLabel( {
 		La plupart des tendances issues du Conseil national s\'observent également de manière similaire au Conseil des États.\
 		</p>\
 		<p>\
-		Une différence entre le Conseil national et le Conseil des États est la proportion de femmes. Au Conseil des Etats, c\'est traditionnellement beaucoup moins important. \
+		Une différence entre le Conseil national et le Conseil des États est la proportion de femmes. Au Conseil des Etats, elle est traditionnellement nettement plus faible. \
 		Du <a href="javascript:void(0)" id="storySta1">48.</a> au <a href="javascript:void(0)" id="storySta2">50. législature</a> \
 		il a régulièrement chuté à une valeur de 15 % et seulement à <a href="javascript:void(0)" id="storySta3">51. La législature</a> a de nouveau augmenté.\
 		</p>\
@@ -1060,11 +1060,11 @@ function genderLabel( {
 		qui tend à être plus importante au Conseil des États qu\'au Conseil national. \
 		Cependant, il existe une <a href="javascript:void(0)" id="storySta5">division des réseaux</a> visible selon les camps politiques. \
 		Contrairement au Conseil national, cependant, les partis du centre dominent ici, tant en termes de nombre de députés que de coopération.\
-		Au Conseil des États, le CVP et le FDP sont les députés qui ont été impliqués dans la plupart des initiatives de la 50e législature.\
+		Au Conseil des États, le CVP et le FDP sont les députés qui ont été impliqués dans la plupart des intervention de la 50e législature.\
 		</p>\
 		<p style="text-align : justifier">\
-		Celui du <a href="javascript:void(0)" id="storySta6">50. Législature</a> Le député concerné par la plupart des demandes était Damian Müller (FDP, Lucerne) avec 152 demandes. \
-		Erich Ettlin (CVP, Obwald, 115 requêtes) et Anne Seydoux-Christe (CVP, Jura, 61 requêtes) ont fait le plus de demandes de législation.\
+		Celui du <a href="javascript:void(0)" id="storySta6">50. Législature</a> Le député concerné par la plupart des intervention était Damian Müller (FDP, Lucerne) avec 152 intervention. \
+		Erich Ettlin (CVP, Obwald, 115 interventions) et Anne Seydoux-Christe (CVP, Jura, 61 interventions) ont fait le plus de questions de législation.\
 		Anne Seydoux-Christe a également été la plus grande bâtisseuse de ponts entre les camps politiques.\
 		</p>'
 	},
