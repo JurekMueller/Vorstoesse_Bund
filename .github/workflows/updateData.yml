@@ -31,7 +31,7 @@ jobs:
           cd ..
       
       - name: update-date
-        run: sed -i "s/let dateData = '.*'/let dateWeb = '$(date +'%d.%m.%Y')'/g" JS/netzwerk.js
+        run: sed -i "s/let dateData = '.*'/let dateData = '$(date +'%d.%m.%Y')'/g" JS/netzwerk.js
 
       - name: commit-files
         run: |
