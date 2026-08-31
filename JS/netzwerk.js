@@ -3,7 +3,7 @@
 //// Last changed
 
 let dateWeb = '16.03.2023'
-let dateData = '31.07.2026'
+let dateData = '31.08.2026'
 
 ///////////// INITIAL SETUP ////////////////
 
